@@ -1,12 +1,20 @@
+import 'dart:io';
+
+import 'package:bit_im/chats/chats_page.dart';
 import 'package:bit_im/sign/http_sign.dart';
 import 'package:bit_im/sign/sign_connect.dart';
 import 'package:bit_im/sign/sign_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_openim_sdk/flutter_openim_sdk.dart';
 import 'package:get/get_connect/http/src/response/response.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 
 void main() {
+  if (Platform.isAndroid) {
+    SystemChrome.setSystemUIOverlayStyle(
+        const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+  }
   runApp(const MyApp());
 }
 
@@ -19,10 +27,15 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+          colorScheme: ColorScheme.fromSeed(
+              seedColor: Colors.deepPurple,
+              brightness: Brightness.dark,
+              background: const Color(0xffFEFBFE)),
+          useMaterial3: true,
+          bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+              selectedItemColor: Color(0xff0099FF),
+              unselectedItemColor: Colors.grey)),
+      home: const ChatsPage(),
     );
   }
 }
@@ -47,10 +60,19 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _incrementCounter() async {
     Response response = await SignConnect().postUser();
+
     //var data = await HttpB().get1();
     // Set listener
     // UserInfo userInfo =56
     //     await OpenIM.iMManager.login(userID: '5771974879', token: '');
+    UserInfo userInfo = await OpenIM.iMManager.login(
+        userID: '5771974879',
+        token: response.body['data']['token'],
+        operationID: '123123123');
+    // UserInfo info = await OpenIM.iMManager.userManager
+    //     .getSelfUserInfo(operationID: '123456789');
+    // todo
+    // todo
     print(response);
   }
 
