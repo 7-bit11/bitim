@@ -20,10 +20,34 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "azlistview",
+      "rootUri": "file:///C:/Users/ZY-PC/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/azlistview-2.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "boolean_selector",
       "rootUri": "file:///C:/Users/ZY-PC/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/boolean_selector-2.1.1",
       "packageUri": "lib/",
       "languageVersion": "2.17"
+    },
+    {
+      "name": "cached_network_image",
+      "rootUri": "file:///C:/Users/ZY-PC/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/cached_network_image-3.3.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "cached_network_image_platform_interface",
+      "rootUri": "file:///C:/Users/ZY-PC/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/cached_network_image_platform_interface-4.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "cached_network_image_web",
+      "rootUri": "file:///C:/Users/ZY-PC/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/cached_network_image_web-1.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
     },
     {
       "name": "characters",
@@ -44,6 +68,12 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "crypto",
+      "rootUri": "file:///C:/Users/ZY-PC/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/crypto-3.0.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
       "name": "cupertino_icons",
       "rootUri": "file:///C:/Users/ZY-PC/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/cupertino_icons-1.0.6",
       "packageUri": "lib/",
@@ -62,10 +92,22 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "file",
+      "rootUri": "file:///C:/Users/ZY-PC/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/file-7.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "flutter",
       "rootUri": "file:///D:/Flutter_SDK/flutter/packages/flutter",
       "packageUri": "lib/",
       "languageVersion": "3.2"
+    },
+    {
+      "name": "flutter_cache_manager",
+      "rootUri": "file:///C:/Users/ZY-PC/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/flutter_cache_manager-3.3.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
     },
     {
       "name": "flutter_lints",
@@ -130,6 +172,12 @@
     {
       "name": "meta",
       "rootUri": "file:///C:/Users/ZY-PC/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/meta-1.10.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "octo_image",
+      "rootUri": "file:///C:/Users/ZY-PC/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/octo_image-2.0.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -200,6 +248,18 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "rxdart",
+      "rootUri": "file:///C:/Users/ZY-PC/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/rxdart-0.27.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "scrollable_positioned_list",
+      "rootUri": "file:///C:/Users/ZY-PC/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/scrollable_positioned_list-0.2.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "sky_engine",
       "rootUri": "file:///D:/Flutter_SDK/flutter/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
@@ -210,6 +270,24 @@
       "rootUri": "file:///C:/Users/ZY-PC/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/source_span-1.10.0",
       "packageUri": "lib/",
       "languageVersion": "2.18"
+    },
+    {
+      "name": "sprintf",
+      "rootUri": "file:///C:/Users/ZY-PC/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/sprintf-7.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "sqflite",
+      "rootUri": "file:///C:/Users/ZY-PC/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/sqflite-2.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "sqflite_common",
+      "rootUri": "file:///C:/Users/ZY-PC/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/sqflite_common-2.5.0+2",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
     },
     {
       "name": "stack_trace",
@@ -230,6 +308,12 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "synchronized",
+      "rootUri": "file:///C:/Users/ZY-PC/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/synchronized-3.1.0+1",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "term_glyph",
       "rootUri": "file:///C:/Users/ZY-PC/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/term_glyph-1.2.1",
       "packageUri": "lib/",
@@ -246,6 +330,12 @@
       "rootUri": "file:///C:/Users/ZY-PC/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/typed_data-1.3.2",
       "packageUri": "lib/",
       "languageVersion": "2.17"
+    },
+    {
+      "name": "uuid",
+      "rootUri": "file:///C:/Users/ZY-PC/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/uuid-4.2.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
     },
     {
       "name": "vector_graphics",
@@ -302,7 +392,7 @@
       "languageVersion": "3.2"
     }
   ],
-  "generated": "2024-01-02T08:21:51.647702Z",
+  "generated": "2024-01-04T07:35:42.120240Z",
   "generator": "pub",
   "generatorVersion": "3.2.3"
 }

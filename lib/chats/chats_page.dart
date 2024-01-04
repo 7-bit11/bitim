@@ -1,4 +1,5 @@
-import 'package:bit_im/contacts/contacts_page.dart';
+import 'package:bit_im/enum/chats_state_enum.dart';
+import 'package:bit_im/personalchat/personal_chat.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -23,12 +24,14 @@ class _ChatsPageState extends State<ChatsPage> {
         name: 'Ashish',
         time: '10:30',
         message: 'Good morning, did you sleep well?',
-        count: 12),
+        count: 12,
+        state: ChatsStateEnum.online),
     ChatsModel(
         url: 'assets/images/Frame 32931.svg',
         name: 'UX Team',
         time: '15m ago',
-        message: 'How is it going?'),
+        message: 'How is it going?',
+        state: ChatsStateEnum.online),
     ChatsModel(
         url: 'assets/images/Frame 32932.svg',
         name: 'Erlan Sadewa',
@@ -40,7 +43,8 @@ class _ChatsPageState extends State<ChatsPage> {
         name: 'Athalia Putri',
         time: '3m ago',
         message: 'Good morning, did you sleep well?',
-        count: 1),
+        count: 1,
+        state: ChatsStateEnum.online),
     ChatsModel(
         url: 'assets/images/Frame 32934.svg',
         name: 'UX Team',
@@ -80,56 +84,30 @@ class _ChatsPageState extends State<ChatsPage> {
         message: 'How is it going?')
   ];
 
-  int cuffindex = 0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(//controller: controller,
-          slivers: [
-        const CupertinoSliverNavigationBar(
-          largeTitle: Text('Contacts'),
-          backgroundColor: Color(0x88FFFFFF),
-          automaticallyImplyTitle: false,
-          brightness: Brightness.light,
-          alwaysShowMiddle: false,
-        ),
-        SliverList.builder(
-            itemBuilder: (BuildContext context, int index) {
-              return GestureDetector(
-                onTap: () => Get.to(() => const ContactsPage(),
-                    transition: Transition.rightToLeft),
-                child: DefaultTextStyle(
-                    style: const TextStyle(color: Colors.black, fontSize: 16),
-                    child: buildWidget(chatsModel: chatsModels[index])),
-              );
-            },
-            itemCount: chatsModels.length)
-      ]),
-      bottomNavigationBar: BottomNavigationBar(
-          currentIndex: cuffindex,
-          onTap: (value) => setState(() => cuffindex = value),
-          items: [
-            BottomNavigationBarItem(
-                label: 'Chats',
-                icon: SvgPicture.asset(
-                  'assets/images/chat.svg',
-                  width: 24,
-                  height: 24,
-                  colorFilter: ColorFilter.mode(
-                      cuffindex == 0 ? const Color(0xff0099FF) : Colors.grey,
-                      BlendMode.srcIn),
-                )),
-            BottomNavigationBarItem(
-                label: 'Contacts',
-                icon: SvgPicture.asset('assets/images/supervisor_account.svg',
-                    width: 24,
-                    height: 24,
-                    colorFilter: ColorFilter.mode(
-                        cuffindex == 1 ? const Color(0xff0099FF) : Colors.grey,
-                        BlendMode.srcIn)))
-          ]),
-    );
+        body: CustomScrollView(//controller: controller,
+            slivers: [
+      const CupertinoSliverNavigationBar(
+        largeTitle: Text('Chats'),
+        backgroundColor: Color(0x88FFFFFF),
+        automaticallyImplyTitle: false,
+        brightness: Brightness.light,
+        alwaysShowMiddle: false,
+      ),
+      SliverList.builder(
+          itemBuilder: (BuildContext context, int index) {
+            return GestureDetector(
+              onTap: () =>
+                  Get.to(() => PersonalChatPage(name: chatsModels[index].name)),
+              child: DefaultTextStyle(
+                  style: const TextStyle(color: Colors.black, fontSize: 15),
+                  child: buildWidget(chatsModel: chatsModels[index])),
+            );
+          },
+          itemCount: chatsModels.length)
+    ]));
   }
 }
 
@@ -150,10 +128,43 @@ buildWidget({required ChatsModel chatsModel}) {
       child: Row(
           //crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SvgPicture.asset(
-              chatsModel.url,
-              width: 50,
-              height: 50,
+            Stack(
+              children: [
+                SvgPicture.asset(chatsModel.url, width: 50, height: 50),
+                Container(
+                    decoration: BoxDecoration(
+                        color: chatsModel.state == ChatsStateEnum.online
+                            ? Colors.transparent
+                            : Colors.grey.withOpacity(.4),
+                        borderRadius: BorderRadius.circular(10)),
+                    width: 50,
+                    height: 50),
+                Positioned(
+                  right: 0,
+                  bottom: 0,
+                  child: Stack(
+                    alignment: AlignmentDirectional.center,
+                    children: [
+                      Container(
+                          decoration: BoxDecoration(
+                              color: chatsModel.state == ChatsStateEnum.online
+                                  ? Colors.white
+                                  : Colors.transparent,
+                              borderRadius: BorderRadius.circular(20)),
+                          width: 13,
+                          height: 13),
+                      Container(
+                          decoration: BoxDecoration(
+                              color: chatsModel.state == ChatsStateEnum.online
+                                  ? const Color(0xff32d877)
+                                  : Colors.transparent,
+                              borderRadius: BorderRadius.circular(20)),
+                          width: 11,
+                          height: 11),
+                    ],
+                  ),
+                ),
+              ],
             ),
             const SizedBox(width: 10),
             Expanded(
@@ -164,7 +175,7 @@ buildWidget({required ChatsModel chatsModel}) {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w400))),
+                              fontSize: 17, fontWeight: FontWeight.w400))),
                   Text(chatsModel.time)
                 ]),
                 const SizedBox(height: 5),
@@ -188,10 +199,12 @@ class ChatsModel {
   late String time;
   late String message;
   late int count;
+  late ChatsStateEnum state;
   ChatsModel(
       {required this.url,
       this.name = '',
       this.time = '',
       required this.message,
-      this.count = 0});
+      this.count = 0,
+      this.state = ChatsStateEnum.offline});
 }

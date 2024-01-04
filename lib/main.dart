@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:bit_im/chats/chats_page.dart';
-import 'package:bit_im/sign/http_sign.dart';
+import 'package:bit_im/frame/frame_page.dart';
 import 'package:bit_im/sign/sign_connect.dart';
 import 'package:bit_im/sign/sign_controller.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_openim_sdk/flutter_openim_sdk.dart';
@@ -25,17 +25,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Flutter Demo',
+      title: 'Bit IM',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(
-              seedColor: Colors.deepPurple,
-              brightness: Brightness.dark,
-              background: const Color(0xffFEFBFE)),
-          useMaterial3: true,
-          bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-              selectedItemColor: Color(0xff0099FF),
-              unselectedItemColor: Colors.grey)),
-      home: const ChatsPage(),
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color(0xff002DE3),
+            brightness: Brightness.dark,
+            background: const Color(0xffFEFBFE)),
+        useMaterial3: true,
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+            selectedItemColor: Color(0xff002DE3),
+            unselectedItemColor: Colors.grey),
+        // cupertinoOverrideTheme:
+        //     NoDefaultCupertinoThemeData(primaryColor: Colors.black)
+      ),
+      home: const FramePage(),
     );
   }
 }
@@ -49,7 +53,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  final int _counter = 0;
 
   @override
   void initState() {
