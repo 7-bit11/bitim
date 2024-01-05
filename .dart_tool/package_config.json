@@ -122,6 +122,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "flutter_staggered_grid_view",
+      "rootUri": "file:///C:/Users/ZY-PC/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/flutter_staggered_grid_view-0.7.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "flutter_svg",
       "rootUri": "file:///C:/Users/ZY-PC/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/flutter_svg-2.0.9",
       "packageUri": "lib/",
@@ -392,7 +398,7 @@
       "languageVersion": "3.2"
     }
   ],
-  "generated": "2024-01-04T07:35:42.120240Z",
+  "generated": "2024-01-05T06:46:09.693711Z",
   "generator": "pub",
   "generatorVersion": "3.2.3"
 }

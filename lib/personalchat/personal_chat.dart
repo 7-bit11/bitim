@@ -14,11 +14,22 @@ class _PersonalChatPageState extends State<PersonalChatPage> {
   @override
   void initState() {
     super.initState();
+
     initData();
+    focusNode = FocusNode();
+    focusNode.addListener(() {
+      if (focusNode.hasFocus) {
+        if (height > 0) {
+          setState(() => height = 0);
+        }
+      }
+    });
   }
 
   // messages
   List<Message> messages = [];
+  late double height = 0;
+  late FocusNode focusNode;
   //加载数据
   void initData() {
     messages = [
@@ -93,20 +104,186 @@ class _PersonalChatPageState extends State<PersonalChatPage> {
     messages = messages.reversed.toList();
   }
 
+  TextEditingController textEditingController = TextEditingController();
+
+  mfSend() {
+    Message message = Message(
+        message: textEditingController.value.text,
+        senderId: '1002',
+        receiverId: '1001',
+        time: '',
+        contentType: MessageContentType.text);
+
+    messages.insert(0, message);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffF2F2F2),
+      backgroundColor: const Color(0xffF1F1F1),
       appBar: CupertinoNavigationBar(
           middle: Text(widget.name),
           trailing: SvgPicture.asset('assets/images/more_vert.svg')),
-      body: ListView.builder(
-        shrinkWrap: true,
-        reverse: true,
-        itemBuilder: (BuildContext context, int index) {
-          return MessageWidget(message: messages[index]);
-        },
-        itemCount: messages.length,
+      body: Column(
+        children: [
+          Expanded(
+            child: GestureDetector(
+              onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+              child: ListView.builder(
+                shrinkWrap: true,
+                reverse: true,
+                itemBuilder: (BuildContext context, int index) {
+                  return MessageWidget(message: messages[index]);
+                },
+                itemCount: messages.length,
+              ),
+            ),
+          ),
+          Container(
+            color: const Color(0xffF7F7F7),
+            height: 50,
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(children: [
+              IconButton(
+                  style: const ButtonStyle(
+                      overlayColor:
+                          MaterialStatePropertyAll(Colors.transparent)),
+                  icon: SvgPicture.asset(
+                    'assets/images/Icon.svg',
+                    width: 24,
+                    height: 24,
+                    colorFilter:
+                        const ColorFilter.mode(Colors.black54, BlendMode.srcIn),
+                  ),
+                  onPressed: () {
+                    FocusScope.of(context).requestFocus(FocusNode());
+                    setState(() => height == 0
+                        ? height = MediaQuery.of(context).size.height * .3
+                        : height = 0);
+                  }),
+              const SizedBox(width: 10),
+              Expanded(
+                  child: TextField(
+                focusNode: focusNode,
+                controller: textEditingController,
+                style: const TextStyle(color: Colors.black),
+                cursorColor: const Color(0xff002DE3),
+                decoration: const InputDecoration(
+                  prefixIconConstraints: BoxConstraints(
+                      maxHeight: 24, minHeight: 24, maxWidth: 40, minWidth: 40),
+                  suffixIconConstraints: BoxConstraints(
+                      maxHeight: 38, minHeight: 38, minWidth: 100),
+                  isCollapsed: true,
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(borderSide: BorderSide.none),
+                  hintStyle: TextStyle(color: Colors.black),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                  enabledBorder:
+                      OutlineInputBorder(borderSide: BorderSide.none),
+                  focusedBorder:
+                      OutlineInputBorder(borderSide: BorderSide.none),
+                ),
+              )),
+              const SizedBox(width: 15),
+              IconButton(
+                  style: const ButtonStyle(
+                      overlayColor:
+                          MaterialStatePropertyAll(Colors.transparent)),
+                  onPressed: () {
+                    if (textEditingController.value.text.isEmpty) return;
+                    messages.insert(
+                        0,
+                        Message(
+                          message: textEditingController.value.text,
+                          time: '2021-01-01 12:00:00',
+                          senderId: '1001',
+                          receiverId: '1002',
+                          contentType: MessageContentType.text,
+                        ));
+                    mfSend();
+                    textEditingController.clear();
+                    setState(() {});
+                  },
+                  icon: SvgPicture.asset('assets/images/send.svg',
+                      width: 24, height: 24)),
+              const SizedBox(width: 5),
+            ]),
+          ),
+          AnimatedContainer(
+              padding: const EdgeInsets.all(10),
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.linearToEaseOut,
+              height: height,
+              color: const Color(0xffF7F7F7),
+              child: GridView(
+                  padding: const EdgeInsets.symmetric(vertical: 30),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 4),
+                  children: [
+                    Column(children: [
+                      SvgPicture.asset('assets/images/Image_01.svg',
+                          colorFilter: const ColorFilter.mode(
+                              Colors.black54, BlendMode.srcIn),
+                          width: 26,
+                          height: 26),
+                      const SizedBox(height: 5),
+                      const Text('相册',
+                          style: TextStyle(color: Colors.grey, fontSize: 14))
+                    ]),
+                    Column(children: [
+                      SvgPicture.asset('assets/images/Folder.svg',
+                          colorFilter: const ColorFilter.mode(
+                              Colors.black54, BlendMode.srcIn),
+                          width: 26,
+                          height: 26),
+                      const SizedBox(height: 5),
+                      const Text('文件夹',
+                          style: TextStyle(color: Colors.grey, fontSize: 14))
+                    ]),
+                    Column(children: [
+                      SvgPicture.asset('assets/images/Image_01.svg',
+                          colorFilter: const ColorFilter.mode(
+                              Colors.black54, BlendMode.srcIn),
+                          width: 26,
+                          height: 26),
+                      const SizedBox(height: 5),
+                      const Text('相册',
+                          style: TextStyle(color: Colors.grey, fontSize: 14))
+                    ]),
+                    Column(children: [
+                      SvgPicture.asset('assets/images/Folder.svg',
+                          colorFilter: const ColorFilter.mode(
+                              Colors.black54, BlendMode.srcIn),
+                          width: 26,
+                          height: 26),
+                      const SizedBox(height: 5),
+                      const Text('文件夹',
+                          style: TextStyle(color: Colors.grey, fontSize: 14))
+                    ]),
+                    Column(children: [
+                      SvgPicture.asset('assets/images/Image_01.svg',
+                          colorFilter: const ColorFilter.mode(
+                              Colors.black54, BlendMode.srcIn),
+                          width: 26,
+                          height: 26),
+                      const SizedBox(height: 5),
+                      const Text('相册',
+                          style: TextStyle(color: Colors.grey, fontSize: 14))
+                    ]),
+                    Column(children: [
+                      SvgPicture.asset('assets/images/Folder.svg',
+                          colorFilter: const ColorFilter.mode(
+                              Colors.black54, BlendMode.srcIn),
+                          width: 26,
+                          height: 26),
+                      const SizedBox(height: 5),
+                      const Text('文件夹',
+                          style: TextStyle(color: Colors.grey, fontSize: 14))
+                    ]),
+                  ]))
+        ],
       ),
     );
   }
@@ -124,7 +301,7 @@ class _MessageWidgetState extends State<MessageWidget> {
   void initState() {
     super.initState();
 
-    initData();
+    //initData();
   }
 
   late Widget mseeageContent;
@@ -170,6 +347,7 @@ class _MessageWidgetState extends State<MessageWidget> {
 
   @override
   Widget build(BuildContext context) {
+    initData();
     buildMessageContent();
     //假如是自己发送的消息
     return id == '1001' ? buildRightMessage() : buildLeftMessage();
