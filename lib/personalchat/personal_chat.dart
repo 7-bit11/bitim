@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shimmer/shimmer.dart';
 
 class PersonalChatPage extends StatefulWidget {
   const PersonalChatPage({super.key, required this.name});
@@ -98,6 +99,14 @@ class _PersonalChatPageState extends State<PersonalChatPage> {
         time: '2021-01-01 12:00:00',
         senderId: '1002',
         receiverId: '1001',
+        contentType: MessageContentType.image,
+      ),
+      Message(
+        message:
+            'https://images.wallpaperscraft.com/image/single/girl_schoolgirl_street_1139289_2160x3840.jpg',
+        time: '2021-01-01 12:00:00',
+        senderId: '1001',
+        receiverId: '1002',
         contentType: MessageContentType.image,
       )
     ];
@@ -330,12 +339,24 @@ class _MessageWidgetState extends State<MessageWidget> {
           borderRadius: BorderRadius.circular(6),
           child: ConstrainedBox(
               constraints: BoxConstraints(
-                  minHeight: MediaQuery.of(context).size.height * .1),
+                  minHeight: MediaQuery.of(context).size.height * .1,
+                  maxHeight: MediaQuery.of(context).size.height * .4),
               child: CachedNetworkImage(
                 imageUrl: widget.message.message,
+                fit: BoxFit.cover,
                 placeholder: (context, url) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
+                  return SizedBox(
+                    width: double.infinity,
+                    height: MediaQuery.of(context).size.height * .1,
+                    child: Shimmer.fromColors(
+                      baseColor: const Color.fromARGB(255, 245, 245, 245),
+                      highlightColor: Colors.white,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8)),
+                      ),
+                    ),
                   );
                 },
               )),

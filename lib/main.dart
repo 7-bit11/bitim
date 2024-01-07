@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:bit_im/frame/frame_page.dart';
 import 'package:bit_im/sign/sign_connect.dart';
 import 'package:bit_im/sign/sign_controller.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_openim_sdk/flutter_openim_sdk.dart';
