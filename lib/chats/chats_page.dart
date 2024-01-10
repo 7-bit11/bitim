@@ -87,27 +87,65 @@ class _ChatsPageState extends State<ChatsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        floatingActionButton: FloatingActionButton(onPressed: () {
+          // Get.defaultDialog(
+          //     onConfirm: () => print("Ok"),
+          //     middleText: "Dialog made in 3 lines of code");
+          //Get.snackbar("Snackbar 标题", "欢迎使用Snackbar", colorText: Colors.black);
+          Get.dialog(
+            Center(
+                child: Container(
+              width: MediaQuery.of(context).size.width * .6,
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(8)),
+              child: DefaultTextStyle(
+                style: const TextStyle(color: Colors.black, fontSize: 16),
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(mainAxisSize: MainAxisSize.min, children: [
+                    const Text('温馨提示',
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold)),
+                    const Text(
+                        '欢迎您使用是LAPP，请充分阅读知疾《用户协议》和《隐私政策》点“同意并继续“代表您已同意前述协议及下列约定;为了给您提供服务，我们会申请系统权限收集设备及个人信息;工再将严格保守您的个人信息，确保信息安全。您在点击”同意并继续”前，务必审慎阅读，充分理解协议条款内容'),
+                    const SizedBox(height: 10),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            Get.back();
+                          },
+                          child: const Text('同意并继续',
+                              style: TextStyle(color: Colors.white))),
+                    )
+                  ]),
+                ),
+              ),
+            )),
+            barrierDismissible: false,
+          );
+        }),
         body: CustomScrollView(//controller: controller,
             slivers: [
-      const CupertinoSliverNavigationBar(
-        largeTitle: Text('Chats'),
-        backgroundColor: Color(0x88FFFFFF),
-        automaticallyImplyTitle: false,
-        brightness: Brightness.light,
-        alwaysShowMiddle: false,
-      ),
-      SliverList.builder(
-          itemBuilder: (BuildContext context, int index) {
-            return GestureDetector(
-              onTap: () =>
-                  Get.to(() => PersonalChatPage(name: chatsModels[index].name)),
-              child: DefaultTextStyle(
-                  style: const TextStyle(color: Colors.black, fontSize: 15),
-                  child: buildWidget(chatsModel: chatsModels[index])),
-            );
-          },
-          itemCount: chatsModels.length)
-    ]));
+          const CupertinoSliverNavigationBar(
+            largeTitle: Text('Chats'),
+            backgroundColor: Color(0x88FFFFFF),
+            automaticallyImplyTitle: false,
+            brightness: Brightness.light,
+            alwaysShowMiddle: false,
+          ),
+          SliverList.builder(
+              itemBuilder: (BuildContext context, int index) {
+                return GestureDetector(
+                  onTap: () => Get.to(
+                      () => PersonalChatPage(name: chatsModels[index].name)),
+                  child: DefaultTextStyle(
+                      style: const TextStyle(color: Colors.black, fontSize: 15),
+                      child: buildWidget(chatsModel: chatsModels[index])),
+                );
+              },
+              itemCount: chatsModels.length)
+        ]));
   }
 }
 

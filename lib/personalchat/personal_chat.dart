@@ -1,18 +1,17 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'dart:io';
 
 import 'package:bit_im/message/message.dart' as message;
 import 'package:bit_im/message/message_audio.dart';
-import 'package:bit_im/message/message_content_type.dart';
+import 'package:bit_im/message/message_content_type_enum.dart';
 import 'package:bit_im/message/message_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:just_audio/just_audio.dart';
-import 'package:just_waveform/just_waveform.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
-import 'package:rxdart/rxdart.dart';
 
 class PersonalChatPage extends StatefulWidget {
   const PersonalChatPage({super.key, required this.name});
@@ -29,6 +28,7 @@ class _PersonalChatPageState extends State<PersonalChatPage> {
     super.initState();
     initData();
     // initAudio();
+    initDataFile();
     focusNode = FocusNode();
     focusNode.addListener(() {
       if (focusNode.hasFocus) {
@@ -39,55 +39,25 @@ class _PersonalChatPageState extends State<PersonalChatPage> {
     });
   }
 
-  final player = AudioPlayer();
-
   @override
   void dispose() {
     super.dispose();
-    player.dispose();
   }
 
-  void initAudio() async {
-    //创建音频文件
-    final audioFile =
-        File(p.join((await getTemporaryDirectory()).path, 'eva.mp3'));
-
-    try {
-      //是否存在
-      //if (await audioFile.exists()) {
-      await audioFile.writeAsBytes(
-          (await rootBundle.load('assets/audios/eva.mp3'))
-              .buffer
-              .asUint8List());
-      //}
-
-      // final duration = await player.setFilePath(audioFile.path);
-      // player.play();
-      //print(123);
-      final waveFile =
-          File(p.join((await getTemporaryDirectory()).path, 'eva.wave'));
-      messages.insert(
-          0,
-          message.Message(
-              message: 'audio',
-              time: '2021-01-01 12:00:00',
-              senderId: '1001',
-              receiverId: '1002',
-              contentType: MessageContentType.audio,
-              messageAudio:
-                  MessageAudio(audioFile: audioFile, waveFile: waveFile)));
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-  }
+  initDataFile() async {}
 
   // messages
   List<message.Message> messages = [];
   late double height = 0;
   late FocusNode focusNode;
   //加载数据
-  void initData() {
-    initAudio();
+  void initData() async {
+    final audioFile =
+        File(p.join((await getTemporaryDirectory()).path, 'xxx.mp3'));
+    final audioFile1 =
+        File(p.join((await getTemporaryDirectory()).path, 'eva.mp3'));
+    final audioFile2 =
+        File(p.join((await getTemporaryDirectory()).path, 'qimeide.mp3'));
     messages = [
       message.Message(
         message: '你好',
@@ -195,9 +165,53 @@ class _PersonalChatPageState extends State<PersonalChatPage> {
               url:
                   'https://images.wallpaperscraft.com/image/single/girl_ears_cape_1036660_2160x3840.jpg',
               width: 2160,
-              height: 3840))
+              height: 3840)),
+      message.Message(
+          message: 'audio',
+          time: '2021-01-01 12:00:00',
+          senderId: '1001',
+          receiverId: '1002',
+          contentType: MessageContentType.audio,
+          messageAudio: MessageAudio(
+              audioFilePath: audioFile.path, audioFileName: 'xxx')),
+      message.Message(
+          message: '我实现了语音单独播放',
+          time: '2021-01-01 12:00:00',
+          senderId: '1001',
+          receiverId: '1002',
+          contentType: MessageContentType.text),
+      message.Message(
+          message: 'audio',
+          time: '2021-01-01 12:00:00',
+          senderId: '1002',
+          receiverId: '1001',
+          contentType: MessageContentType.audio,
+          messageAudio: MessageAudio(
+              audioFilePath: audioFile1.path, audioFileName: 'eva')),
+      message.Message(
+          message: '残酷な天使のてーぜ',
+          time: '2021-01-01 12:00:00',
+          senderId: '1002',
+          receiverId: '1001',
+          contentType: MessageContentType.text),
+      message.Message(
+          message: '凄美的',
+          time: '2021-01-01 12:00:00',
+          senderId: '1001',
+          receiverId: '1002',
+          contentType: MessageContentType.text),
+      message.Message(
+          message: 'audio',
+          time: '2021-01-01 12:00:00',
+          senderId: '1001',
+          receiverId: '1002',
+          contentType: MessageContentType.audio,
+          messageAudio: MessageAudio(
+              audioFilePath: audioFile2.path, audioFileName: 'qimeide')),
     ];
+    //messages.add(await initAudio());
     messages = messages.reversed.toList();
+    setState(() {});
   }
 
   TextEditingController textEditingController = TextEditingController();
@@ -218,7 +232,8 @@ class _PersonalChatPageState extends State<PersonalChatPage> {
                 shrinkWrap: true,
                 reverse: true,
                 itemBuilder: (BuildContext context, int index) {
-                  return MessageWidget(message: messages[index]);
+                  return MessageWidget(
+                      message: messages[index], messages: messages);
                 },
                 itemCount: messages.length,
               ),

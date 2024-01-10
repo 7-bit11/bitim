@@ -1,7 +1,6 @@
-import 'dart:io';
-
 class MessageAudio {
-  late File audioFile;
-  late File waveFile;
-  MessageAudio({required this.audioFile, required this.waveFile});
+  late String audioFilePath;
+  late String audioFileName;
+  //late File waveFile;
+  MessageAudio({required this.audioFilePath, required this.audioFileName});
 }

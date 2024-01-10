@@ -1,5 +1,5 @@
 import 'package:bit_im/message/message_audio.dart';
-import 'package:bit_im/message/message_content_type.dart';
+import 'package:bit_im/message/message_content_type_enum.dart';
 
 class Message {
   //发送信息
