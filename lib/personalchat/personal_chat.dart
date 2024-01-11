@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:bit_im/message/message.dart' as message;
 import 'package:bit_im/message/message_audio.dart';
 import 'package:bit_im/message/message_content_type_enum.dart';
+import 'package:bit_im/message/message_video.dart';
 import 'package:bit_im/message/message_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -208,6 +209,26 @@ class _PersonalChatPageState extends State<PersonalChatPage> {
           contentType: MessageContentType.audio,
           messageAudio: MessageAudio(
               audioFilePath: audioFile2.path, audioFileName: 'qimeide')),
+      message.Message(
+          message: 'audio',
+          time: '2021-01-01 12:00:00',
+          senderId: '1002',
+          receiverId: '1001',
+          contentType: MessageContentType.video,
+          messageVideo: MessageVideo(
+              url: 'https://media.w3.org/2010/05/sintel/trailer.mp4', //'',
+              height: 1080,
+              width: 1920)),
+      message.Message(
+          message: 'audio',
+          time: '2021-01-01 12:00:00',
+          senderId: '1001',
+          receiverId: '1002',
+          contentType: MessageContentType.video,
+          messageVideo: MessageVideo(
+              url: 'https://vjs.zencdn.net/v/oceans.mp4',
+              height: 1080,
+              width: 1920)),
     ];
     //messages.add(await initAudio());
     messages = messages.reversed.toList();

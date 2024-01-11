@@ -6,6 +6,7 @@ import 'package:bit_im/message/role_enum.dart';
 import 'package:bit_im/message/widget/audio_widget.dart';
 import 'package:bit_im/message/widget/image_widget.dart';
 import 'package:bit_im/message/widget/text_widget.dart';
+import 'package:bit_im/message/widget/video_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -75,6 +76,8 @@ class _MessageWidgetState extends State<MessageWidget> {
             fixedWaveColor: fixedWaveColor,
             roleEnum: roleEnum,
             messages: widget.messages);
+      case MessageContentType.video:
+        mseeageContent = VideoMessageWidget(message: widget.message);
       default:
         mseeageContent = Text(widget.message.message);
     }
@@ -99,7 +102,8 @@ class _MessageWidgetState extends State<MessageWidget> {
           Container(
               constraints: BoxConstraints(
                   maxWidth: MediaQuery.of(context).size.width * .7),
-              padding: widget.message.contentType == MessageContentType.image
+              padding: widget.message.contentType == MessageContentType.image ||
+                      widget.message.contentType == MessageContentType.video
                   ? const EdgeInsets.all(0)
                   : const EdgeInsets.all(10),
               decoration: const BoxDecoration(
@@ -141,7 +145,8 @@ class _MessageWidgetState extends State<MessageWidget> {
           Container(
               constraints: BoxConstraints(
                   maxWidth: MediaQuery.of(context).size.width * .7),
-              padding: widget.message.contentType == MessageContentType.image
+              padding: widget.message.contentType == MessageContentType.image ||
+                      widget.message.contentType == MessageContentType.video
                   ? const EdgeInsets.all(0)
                   : const EdgeInsets.all(10),
               decoration: const BoxDecoration(

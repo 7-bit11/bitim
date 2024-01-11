@@ -1,5 +1,6 @@
 import 'package:bit_im/message/message_audio.dart';
 import 'package:bit_im/message/message_content_type_enum.dart';
+import 'package:bit_im/message/message_video.dart';
 
 class Message {
   //发送信息
@@ -16,6 +17,9 @@ class Message {
   late ImageInfo? imageInfo;
   //语音信息
   late MessageAudio? messageAudio;
+  //视频信息
+  late MessageVideo? messageVideo;
+
   //构造函数
   Message(
       {required this.message,
@@ -24,7 +28,8 @@ class Message {
       required this.time,
       required this.contentType,
       this.imageInfo,
-      this.messageAudio});
+      this.messageAudio,
+      this.messageVideo});
 }
 
 //图片信息
