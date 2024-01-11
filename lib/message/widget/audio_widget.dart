@@ -41,12 +41,16 @@ class AudioMessageWidget extends GetView<AudioController> {
                   () => !controller.isPlay.value
                       ? SvgPicture.asset(
                           'assets/images/Play_Circle.svg',
+                          width: 24,
+                          height: 24,
                           colorFilter: const ColorFilter.mode(
                               Colors.white, BlendMode.srcIn),
                         )
                       : FadeIn(
                           child: SvgPicture.asset(
                             'assets/images/Pause_Circle.svg',
+                            width: 24,
+                            height: 24,
                             colorFilter: const ColorFilter.mode(
                                 Colors.white, BlendMode.srcIn),
                           ),
@@ -75,12 +79,16 @@ class AudioMessageWidget extends GetView<AudioController> {
                   () => !controller.isPlay.value
                       ? SvgPicture.asset(
                           'assets/images/Play_Circle.svg',
+                          width: 24,
+                          height: 24,
                           colorFilter: const ColorFilter.mode(
                               Colors.black, BlendMode.srcIn),
                         )
                       : FadeIn(
                           child: SvgPicture.asset(
                             'assets/images/Pause_Circle.svg',
+                            width: 24,
+                            height: 24,
                             colorFilter: const ColorFilter.mode(
                                 Colors.black, BlendMode.srcIn),
                           ),

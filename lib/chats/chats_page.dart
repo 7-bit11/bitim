@@ -107,7 +107,7 @@ class _ChatsPageState extends State<ChatsPage> {
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold)),
                     const Text(
-                        '欢迎您使用是LAPP，请充分阅读知疾《用户协议》和《隐私政策》点“同意并继续“代表您已同意前述协议及下列约定;为了给您提供服务，我们会申请系统权限收集设备及个人信息;工再将严格保守您的个人信息，确保信息安全。您在点击”同意并继续”前，务必审慎阅读，充分理解协议条款内容'),
+                        '欢迎您使用是APP，请充分阅读知疾《用户协议》和《隐私政策》点“同意并继续“代表您已同意前述协议及下列约定;为了给您提供服务，我们会申请系统权限收集设备及个人信息;工再将严格保守您的个人信息，确保信息安全。您在点击”同意并继续”前，务必审慎阅读，充分理解协议条款内容'),
                     const SizedBox(height: 10),
                     SizedBox(
                       width: double.infinity,

@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:bit_im/message/message.dart';
 import 'package:bit_im/message/message_content_type_enum.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart' as gett;
 import 'package:get/get.dart';
@@ -38,6 +39,9 @@ class AudioController extends gett.GetxController {
         }
       }
       controller.startPlayer();
+      // await Future.delayed(const Duration(seconds: 5), () async {
+      //   await controller.seekTo(1);
+      // });
     } else {
       controller.pausePlayer();
     }
@@ -70,23 +74,25 @@ class AudioController extends gett.GetxController {
       path: message.messageAudio!.audioFilePath,
       noOfSamples: 25,
     );
+
     await controller.preparePlayer(
       path: message.messageAudio!.audioFilePath,
       shouldExtractWaveform: true,
       noOfSamples: 25,
       volume: 1,
     );
-    //播放完成监听
-    controller.onCompletion.listen((_) async {
-      print('123123123123123123');
-      // bool bool1 = await controller.setVolume(0.0);
-      controller.seekTo(0);
-      //controller.startPlayer();
-      //print(bool1);
-      //controller.pausePlayer(); // Pause audio player
-      //controller.setRefresh(true);
+    controller.onExtractionProgress.listen((progress) async {
+      debugPrint("当前的音频加载进度是：=======  $progress");
+      final duration1 = await controller.getDuration(DurationType.max);
+      duration.value = Duration(milliseconds: duration1);
     });
-    final duration1 = await controller.getDuration(DurationType.max);
-    duration.value = Duration(milliseconds: duration1);
+    controller.onCurrentDurationChanged.listen((duration) async {
+      debugPrint("当前音频播放的进度ms：=======  $duration");
+      if (((this.duration.value.inSeconds * 1000) - 300) < duration) {
+        await controller.seekTo(0);
+        isPlay.value = false;
+        await controller.pausePlayer();
+      }
+    });
   }
 }
