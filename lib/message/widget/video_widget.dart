@@ -8,13 +8,16 @@ import 'package:shimmer/shimmer.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoMessageWidget extends GetView<VideoController> {
-  const VideoMessageWidget({super.key, required this.message});
+  const VideoMessageWidget(
+      {super.key, required this.message, required this.messages});
   final Message message;
+  final List<Message> messages;
   @override
   String? get tag => message.messageVideo!.url;
   @override
   Widget build(BuildContext context) {
-    Get.put(VideoController(message: message), tag: message.messageVideo!.url);
+    Get.put(VideoController(message: message, messages: messages),
+        tag: message.messageVideo!.url);
     return ConstrainedBox(
       constraints: BoxConstraints(
           maxHeight: Get.height * .4,

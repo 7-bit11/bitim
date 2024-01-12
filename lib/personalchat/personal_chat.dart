@@ -9,7 +9,6 @@ import 'package:bit_im/message/message_video.dart';
 import 'package:bit_im/message/message_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
@@ -226,7 +225,7 @@ class _PersonalChatPageState extends State<PersonalChatPage> {
           receiverId: '1002',
           contentType: MessageContentType.video,
           messageVideo: MessageVideo(
-              url: 'https://vjs.zencdn.net/v/oceans.mp4',
+              url: 'https://www.w3school.com.cn/i/movie.mp4',
               height: 1080,
               width: 1920)),
     ];

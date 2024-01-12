@@ -9,7 +9,6 @@ import 'package:bit_im/message/widget/text_widget.dart';
 import 'package:bit_im/message/widget/video_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class MessageWidget extends StatefulWidget {
   const MessageWidget(
@@ -77,7 +76,8 @@ class _MessageWidgetState extends State<MessageWidget> {
             roleEnum: roleEnum,
             messages: widget.messages);
       case MessageContentType.video:
-        mseeageContent = VideoMessageWidget(message: widget.message);
+        mseeageContent = VideoMessageWidget(
+            message: widget.message, messages: widget.messages);
       default:
         mseeageContent = Text(widget.message.message);
     }
