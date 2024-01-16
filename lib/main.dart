@@ -5,6 +5,7 @@ import 'package:bit_im/sign/sign_connect.dart';
 import 'package:bit_im/sign/sign_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_openim_sdk/flutter_openim_sdk.dart';
 import 'package:get/get_connect/http/src/response/response.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Bit IM',
       debugShowCheckedModeBanner: false,
+      builder: EasyLoading.init(),
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
             seedColor: const Color(0xff002DE3),
