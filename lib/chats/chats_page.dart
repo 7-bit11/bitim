@@ -1,9 +1,11 @@
+import 'package:bit_im/chats/chats_model.dart';
 import 'package:bit_im/enum/chats_state_enum.dart';
 import 'package:bit_im/personalchat/personal_chat.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ChatsPage extends StatefulWidget {
   const ChatsPage({super.key});
@@ -20,68 +22,90 @@ class _ChatsPageState extends State<ChatsPage> {
 
   List<ChatsModel> chatsModels = [
     ChatsModel(
-        url: 'assets/images/Frame 3293.svg',
+        url:
+            'https://images.wallpaperscraft.com/image/single/girl_cap_blouse_980525_1280x720.jpg',
         name: 'Ashish',
         time: '10:30',
         message: 'Good morning, did you sleep well?',
         count: 12,
-        state: ChatsStateEnum.online),
+        state: ChatsStateEnum.online,
+        id: 1),
     ChatsModel(
-        url: 'assets/images/Frame 32931.svg',
+        url:
+            'https://images.wallpaperscraft.com/image/single/buzzard_bird_sky_1154521_1280x720.jpg',
         name: 'UX Team',
         time: '15m ago',
         message: 'How is it going?',
-        state: ChatsStateEnum.online),
+        state: ChatsStateEnum.online,
+        id: 2),
     ChatsModel(
-        url: 'assets/images/Frame 32932.svg',
+        url:
+            'https://images.wallpaperscraft.com/image/single/thistle_plant_bud_1154486_1280x720.jpg',
         name: 'Erlan Sadewa',
         time: '1h ago',
         message: 'Aight, noted',
-        count: 5),
+        count: 5,
+        id: 3),
     ChatsModel(
-        url: 'assets/images/Frame 32933.svg',
+        url:
+            'https://images.wallpaperscraft.com/image/single/arctic_fox_wild_animal_wildlife_1151659_1280x720.jpg',
         name: 'Athalia Putri',
         time: '3m ago',
         message: 'Good morning, did you sleep well?',
         count: 1,
-        state: ChatsStateEnum.online),
+        state: ChatsStateEnum.online,
+        id: 4),
     ChatsModel(
-        url: 'assets/images/Frame 32934.svg',
-        name: 'UX Team',
-        time: '15m ago',
-        message: 'How is it going?'),
-    ChatsModel(
-        url: 'assets/images/Frame 32935.svg',
-        name: 'Erlan Sadewa',
-        time: '1h ago',
-        message: 'Aight, noted',
-        count: 1),
-    ChatsModel(
-        url: 'assets/images/Frame 32936.svg',
-        name: 'Erlan Sadewa',
-        time: '1h ago',
-        message: 'Aight, noted'),
-    ChatsModel(
-        url: 'assets/images/Frame 32934.svg',
+        url:
+            'https://images.wallpaperscraft.com/image/single/girl_smile_flower_1035552_1280x720.jpg',
         name: 'UX Team',
         time: '15m ago',
         message: 'How is it going?',
-        count: 50),
+        id: 5),
     ChatsModel(
-        url: 'assets/images/Frame 32935.svg',
+        url:
+            'https://images.wallpaperscraft.com/image/single/girl_smile_fish_1005833_1280x720.jpg',
         name: 'Erlan Sadewa',
         time: '1h ago',
-        message: 'Aight, noted'),
+        message: 'Aight, noted',
+        count: 1,
+        id: 6),
     ChatsModel(
-        url: 'assets/images/Frame 32936.svg',
+        url:
+            'https://images.wallpaperscraft.com/image/single/girl_smile_bob_1136652_1280x720.jpg',
         name: 'Erlan Sadewa',
         time: '1h ago',
-        message: 'Aight, noted'),
+        message: 'Aight, noted',
+        id: 7),
     ChatsModel(
-        url: 'assets/images/Frame 32934.svg',
+        url:
+            'https://images.wallpaperscraft.com/image/single/aquilegia_plant_leaves_1151450_1280x720.jpg',
         name: 'UX Team',
         time: '15m ago',
-        message: 'How is it going?')
+        message: 'How is it going?',
+        count: 50,
+        id: 8),
+    ChatsModel(
+        url:
+            'https://images.wallpaperscraft.com/image/single/girl_demon_horns_1085787_1280x720.jpg',
+        name: 'Erlan Sadewa',
+        time: '1h ago',
+        message: 'Aight, noted',
+        id: 9),
+    ChatsModel(
+        url:
+            'https://images.wallpaperscraft.com/image/single/girl_knife_glance_1145057_1280x720.jpg',
+        name: 'Erlan Sadewa',
+        time: '1h ago',
+        message: 'Aight, noted',
+        id: 10),
+    ChatsModel(
+        url:
+            'https://images.wallpaperscraft.com/image/single/cobweb_snow_blur_1140721_1280x720.jpg',
+        name: 'UX Team',
+        time: '15m ago',
+        message: 'How is it going?',
+        id: 11)
   ];
 
   @override
@@ -168,15 +192,30 @@ buildWidget({required ChatsModel chatsModel}) {
           children: [
             Stack(
               children: [
-                SvgPicture.asset(chatsModel.url, width: 50, height: 50),
-                Container(
-                    decoration: BoxDecoration(
-                        color: chatsModel.state == ChatsStateEnum.online
-                            ? Colors.transparent
-                            : Colors.grey.withOpacity(.4),
-                        borderRadius: BorderRadius.circular(10)),
-                    width: 50,
-                    height: 50),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: CachedNetworkImage(
+                      imageUrl: chatsModel.url,
+                      width: 50,
+                      height: 50,
+                      fit: BoxFit.cover,
+                      placeholder: (c, s) {
+                        return Container(
+                          width: 50,
+                          height: 50,
+                          color: Colors.grey.withOpacity(.4),
+                          child: Shimmer.fromColors(
+                            baseColor: const Color.fromARGB(255, 245, 245, 245),
+                            highlightColor: Colors.white,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8)),
+                            ),
+                          ),
+                        );
+                      }),
+                ),
                 Positioned(
                   right: 0,
                   bottom: 0,
@@ -229,20 +268,4 @@ buildWidget({required ChatsModel chatsModel}) {
               ]),
             )
           ]));
-}
-
-class ChatsModel {
-  late String url;
-  late String name;
-  late String time;
-  late String message;
-  late int count;
-  late ChatsStateEnum state;
-  ChatsModel(
-      {required this.url,
-      this.name = '',
-      this.time = '',
-      required this.message,
-      this.count = 0,
-      this.state = ChatsStateEnum.offline});
 }
