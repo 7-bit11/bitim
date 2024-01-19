@@ -1,4 +1,5 @@
 import 'package:azlistview/azlistview.dart';
+import 'package:bit_im/contacts/contacts_model.dart';
 import 'package:bit_im/enum/chats_state_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -157,6 +158,7 @@ class _ContactsPageState extends State<ContactsPage> {
           name: '####rlan Sadewa',
           time: 'Last seen 3 hours ago'),
     ];
+
     for (int i = 0, length = contactsModels.length; i < length; i++) {
       String tag = contactsModels[i].name.substring(0, 1).toUpperCase();
       if (RegExp("[A-Z]").hasMatch(tag)) {
@@ -273,21 +275,4 @@ buildWidget({required ContactsModel contactsModel}) {
           ],
         )
       ]));
-}
-
-class ContactsModel extends ISuspensionBean {
-  late String url;
-  late String name;
-  late String time;
-  String? tagIndex;
-  late ChatsStateEnum state;
-  ContactsModel(
-      {required this.url,
-      this.name = '',
-      this.time = '',
-      this.tagIndex,
-      this.state = ChatsStateEnum.offline});
-
-  @override
-  String getSuspensionTag() => tagIndex!;
 }

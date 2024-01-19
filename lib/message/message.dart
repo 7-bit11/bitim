@@ -1,8 +1,14 @@
 import 'package:bit_im/message/message_audio.dart';
 import 'package:bit_im/message/message_content_type_enum.dart';
+import 'package:bit_im/message/message_image.dart';
 import 'package:bit_im/message/message_video.dart';
+import 'package:json_annotation/json_annotation.dart';
+part 'message.g.dart';
 
+@JsonSerializable()
 class Message {
+  //消息ID
+  late String messageId;
   //发送信息
   late dynamic message;
   //发送者ID
@@ -22,7 +28,8 @@ class Message {
 
   //构造函数
   Message(
-      {required this.message,
+      {required this.messageId,
+      required this.message,
       required this.senderId,
       required this.receiverId,
       required this.time,
@@ -30,16 +37,9 @@ class Message {
       this.imageInfo,
       this.messageAudio,
       this.messageVideo});
-}
 
-//图片信息
-class ImageInfo {
-  late double width;
-  late double height;
-  late String url;
-  ImageInfo(
-      {this.url =
-          'https://i2.hdslb.com/bfs/face/d8dc23f1b984dc3c616b5a788ce87d1cf9264231.jpg',
-      this.width = 1920,
-      this.height = 1080});
+  factory Message.fromJson(Map<String, dynamic> data) =>
+      _$MessageFromJson(data);
+
+  Map<String, dynamic> toJson() => _$MessageToJson(this);
 }

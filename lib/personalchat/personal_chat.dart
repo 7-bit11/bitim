@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
+import 'package:bit_im/message/message_image.dart' as mimage;
 
 class PersonalChatPage extends StatefulWidget {
   const PersonalChatPage({super.key, required this.name});
@@ -65,6 +66,7 @@ class _PersonalChatPageState extends State<PersonalChatPage> {
         senderId: '1002',
         receiverId: '1001',
         contentType: MessageContentType.text,
+        messageId: '1001',
       ),
       message.Message(
         message: '您有啥事吗？',
@@ -72,6 +74,7 @@ class _PersonalChatPageState extends State<PersonalChatPage> {
         senderId: '1001',
         receiverId: '1002',
         contentType: MessageContentType.text,
+        messageId: '1002',
       ),
       message.Message(
         message: '我看了您写的IM程序,希望能和您有合作的机会',
@@ -79,6 +82,7 @@ class _PersonalChatPageState extends State<PersonalChatPage> {
         senderId: '1002',
         receiverId: '1001',
         contentType: MessageContentType.text,
+        messageId: '1003',
       ),
       message.Message(
         message: '我发的这个动物是啥？',
@@ -86,6 +90,7 @@ class _PersonalChatPageState extends State<PersonalChatPage> {
         senderId: '1001',
         receiverId: '1002',
         contentType: MessageContentType.text,
+        messageId: '1004',
       ),
       message.Message(
           message:
@@ -94,7 +99,8 @@ class _PersonalChatPageState extends State<PersonalChatPage> {
           senderId: '1001',
           receiverId: '1002',
           contentType: MessageContentType.image,
-          imageInfo: message.ImageInfo(
+          messageId: '1005',
+          imageInfo: mimage.ImageInfo(
               url:
                   'https://images.wallpaperscraft.com/image/single/snow_leopard_snow_hunting_57947_1280x720.jpg',
               width: 1280,
@@ -105,6 +111,7 @@ class _PersonalChatPageState extends State<PersonalChatPage> {
         senderId: '1002',
         receiverId: '1001',
         contentType: MessageContentType.text,
+        messageId: '1006',
       ),
       message.Message(
           message:
@@ -113,7 +120,8 @@ class _PersonalChatPageState extends State<PersonalChatPage> {
           senderId: '1002',
           receiverId: '1001',
           contentType: MessageContentType.image,
-          imageInfo: message.ImageInfo(
+          messageId: '1007',
+          imageInfo: mimage.ImageInfo(
               url:
                   'https://images.wallpaperscraft.com/image/single/girl_anime_food_671_1280x720.jpg',
               width: 1280,
@@ -125,7 +133,8 @@ class _PersonalChatPageState extends State<PersonalChatPage> {
           senderId: '1002',
           receiverId: '1001',
           contentType: MessageContentType.image,
-          imageInfo: message.ImageInfo(
+          messageId: '1008',
+          imageInfo: mimage.ImageInfo(
               url:
                   'https://images.wallpaperscraft.com/image/single/girl_glasses_heart_1141129_1280x720.jpg',
               width: 1280,
@@ -137,7 +146,8 @@ class _PersonalChatPageState extends State<PersonalChatPage> {
           senderId: '1002',
           receiverId: '1001',
           contentType: MessageContentType.image,
-          imageInfo: message.ImageInfo(
+          messageId: '1009',
+          imageInfo: mimage.ImageInfo(
               url:
                   'https://images.wallpaperscraft.com/image/single/boat_mountains_lake_135258_1280x720.jpg',
               width: 1280,
@@ -149,7 +159,8 @@ class _PersonalChatPageState extends State<PersonalChatPage> {
           senderId: '1001',
           receiverId: '1002',
           contentType: MessageContentType.image,
-          imageInfo: message.ImageInfo(
+          messageId: '1010',
+          imageInfo: mimage.ImageInfo(
               url:
                   'https://images.wallpaperscraft.com/image/single/girl_schoolgirl_street_1139289_2160x3840.jpg',
               width: 2160,
@@ -161,7 +172,8 @@ class _PersonalChatPageState extends State<PersonalChatPage> {
           senderId: '1002',
           receiverId: '1001',
           contentType: MessageContentType.image,
-          imageInfo: message.ImageInfo(
+          messageId: '1011',
+          imageInfo: mimage.ImageInfo(
               url:
                   'https://images.wallpaperscraft.com/image/single/girl_ears_cape_1036660_2160x3840.jpg',
               width: 2160,
@@ -172,6 +184,7 @@ class _PersonalChatPageState extends State<PersonalChatPage> {
           senderId: '1001',
           receiverId: '1002',
           contentType: MessageContentType.audio,
+          messageId: '1012',
           messageAudio: MessageAudio(
               audioFilePath: audioFile.path, audioFileName: 'xxx')),
       message.Message(
@@ -179,6 +192,7 @@ class _PersonalChatPageState extends State<PersonalChatPage> {
           time: '2021-01-01 12:00:00',
           senderId: '1001',
           receiverId: '1002',
+          messageId: '1013',
           contentType: MessageContentType.text),
       message.Message(
           message: 'audio',
@@ -186,6 +200,7 @@ class _PersonalChatPageState extends State<PersonalChatPage> {
           senderId: '1002',
           receiverId: '1001',
           contentType: MessageContentType.audio,
+          messageId: '1014',
           messageAudio: MessageAudio(
               audioFilePath: audioFile1.path, audioFileName: 'eva')),
       message.Message(
@@ -193,18 +208,21 @@ class _PersonalChatPageState extends State<PersonalChatPage> {
           time: '2021-01-01 12:00:00',
           senderId: '1002',
           receiverId: '1001',
+          messageId: '1015',
           contentType: MessageContentType.text),
       message.Message(
           message: '凄美的',
           time: '2021-01-01 12:00:00',
           senderId: '1001',
           receiverId: '1002',
+          messageId: '1016',
           contentType: MessageContentType.text),
       message.Message(
           message: 'audio',
           time: '2021-01-01 12:00:00',
           senderId: '1001',
           receiverId: '1002',
+          messageId: '1017',
           contentType: MessageContentType.audio,
           messageAudio: MessageAudio(
               audioFilePath: audioFile2.path, audioFileName: 'qimeide')),
@@ -214,6 +232,7 @@ class _PersonalChatPageState extends State<PersonalChatPage> {
           senderId: '1002',
           receiverId: '1001',
           contentType: MessageContentType.video,
+          messageId: '1018',
           messageVideo: MessageVideo(
               url: 'https://media.w3.org/2010/05/sintel/trailer.mp4', //'',
               height: 1080,
@@ -224,6 +243,7 @@ class _PersonalChatPageState extends State<PersonalChatPage> {
           senderId: '1001',
           receiverId: '1002',
           contentType: MessageContentType.video,
+          messageId: '1019',
           messageVideo: MessageVideo(
               url: 'https://www.w3school.com.cn/i/movie.mp4',
               height: 1080,
@@ -321,6 +341,7 @@ class _PersonalChatPageState extends State<PersonalChatPage> {
                           senderId: '1001',
                           receiverId: '1002',
                           contentType: MessageContentType.text,
+                          messageId: '',
                         ));
                     textEditingController.clear();
                     setState(() {});

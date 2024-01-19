@@ -56,6 +56,8 @@ dependencies:
   image_gallery_saver: ^2.0.3
   flutter_easyloading: ^3.0.5
   sqflite: ^2.3.0
+  json_annotation: ^4.8.1             #json
+  uuid: ^4.3.3
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -66,7 +68,8 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
-
+  json_serializable: ^6.6.2          #JSON
+  build_runner: ^2.3.3               #JSON
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

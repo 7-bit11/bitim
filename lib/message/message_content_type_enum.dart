@@ -1,3 +1,6 @@
+import 'package:json_annotation/json_annotation.dart';
+
+@JsonEnum(alwaysCreate: true, valueField: 'type')
 enum MessageContentType {
   text(type: 1),
   image(type: 2),
