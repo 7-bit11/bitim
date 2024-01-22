@@ -23,6 +23,9 @@ Message _$MessageFromJson(Map<String, dynamic> json) => Message(
       messageVideo: json['messageVideo'] == null
           ? null
           : MessageVideo.fromJson(json['messageVideo'] as Map<String, dynamic>),
+      imageInfoId: json['imageInfoId'] as String?,
+      messageAudioId: json['messageAudioId'] as String?,
+      messageVideoId: json['messageVideoId'] as String?,
     );
 
 Map<String, dynamic> _$MessageToJson(Message instance) => <String, dynamic>{
@@ -32,8 +35,11 @@ Map<String, dynamic> _$MessageToJson(Message instance) => <String, dynamic>{
       'receiverId': instance.receiverId,
       'time': instance.time,
       'contentType': _$MessageContentTypeEnumMap[instance.contentType]!,
+      'imageInfoId': instance.imageInfoId,
       'imageInfo': instance.imageInfo,
+      'messageAudioId': instance.messageAudioId,
       'messageAudio': instance.messageAudio,
+      'messageVideoId': instance.messageVideoId,
       'messageVideo': instance.messageVideo,
     };
 
@@ -45,4 +51,5 @@ const _$MessageContentTypeEnumMap = {
   MessageContentType.file: 5,
   MessageContentType.location: 6,
   MessageContentType.custom: 7,
+  MessageContentType.localImage: 8,
 };

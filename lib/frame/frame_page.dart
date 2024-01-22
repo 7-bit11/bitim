@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'dart:io';
 
 import 'package:bit_im/chats/chats_model.dart';
@@ -30,9 +32,9 @@ class _FramePageState extends State<FramePage> {
 
   @override
   void initState() {
-    super.initState();
     BitDataBase.initDataBase();
     initDataBase();
+    super.initState();
   }
 
   void initDataBase() async {
@@ -139,7 +141,7 @@ class _FramePageState extends State<FramePage> {
             'state': element.state.id,
           },
           conflictAlgorithm: ConflictAlgorithm.replace);
-      print("====== ======== ========   $i");
+      debugPrint("====== ======== ========   $i");
     }
     initData1();
   }
@@ -344,8 +346,8 @@ class _FramePageState extends State<FramePage> {
     ];
     //messages.add(await initAudio());
     Database database = await BitDataBase.database;
+    int i = 10001;
     for (var element in messagedata) {
-      String messsageId = const Uuid().v1();
       String uuid = const Uuid().v4();
       String? imageId;
       String? audioId;
@@ -354,45 +356,58 @@ class _FramePageState extends State<FramePage> {
         case MessageContentType.text:
           break;
         case MessageContentType.image:
-          await database.insert(BitDataBase.DATA_TABLENAME_MESSAGEIMAGE, {
-            'id': uuid,
-            'url': element.imageInfo!.url,
-            'width': element.imageInfo!.width,
-            'height': element.imageInfo!.height,
-          });
+          await database.insert(
+              BitDataBase.DATA_TABLENAME_MESSAGEIMAGE,
+              {
+                'id': uuid,
+                'url': element.imageInfo!.url,
+                'width': element.imageInfo!.width,
+                'height': element.imageInfo!.height,
+              },
+              conflictAlgorithm: ConflictAlgorithm.replace);
           imageId = uuid;
           break;
         case MessageContentType.audio:
-          await database.insert(BitDataBase.DATA_TABLENAME_MESSAGEAUDIO, {
-            'id': uuid,
-            'audioFilePath': element.messageAudio!.audioFilePath,
-            'audioFileName': element.messageAudio!.audioFileName,
-          });
+          await database.insert(
+              BitDataBase.DATA_TABLENAME_MESSAGEAUDIO,
+              {
+                'id': uuid,
+                'audioFilePath': element.messageAudio!.audioFilePath,
+                'audioFileName': element.messageAudio!.audioFileName,
+              },
+              conflictAlgorithm: ConflictAlgorithm.replace);
           audioId = uuid;
           break;
         case MessageContentType.video:
-          await database.insert(BitDataBase.DATA_TABLENAME_MESSAGEVIDEO, {
-            'id': uuid,
-            'url': element.messageVideo!.url,
-            'width': element.messageVideo!.width,
-            'height': element.messageVideo!.height,
-          });
+          await database.insert(
+              BitDataBase.DATA_TABLENAME_MESSAGEVIDEO,
+              {
+                'id': uuid,
+                'url': element.messageVideo!.url,
+                'width': element.messageVideo!.width,
+                'height': element.messageVideo!.height,
+              },
+              conflictAlgorithm: ConflictAlgorithm.replace);
           videoId = uuid;
           break;
         default:
           break;
       }
-      await database.insert(BitDataBase.DATA_TABLENAME_MESSAGE, {
-        'messageId': messsageId,
-        'message': element.message,
-        'senderId': element.senderId,
-        'receiverId': element.receiverId,
-        'time': element.time,
-        'contentType': element.contentType.type,
-        'imageInfo': imageId,
-        'messageAudio': audioId,
-        'messageVideo': videoId,
-      });
+      await database.insert(
+          BitDataBase.DATA_TABLENAME_MESSAGE,
+          {
+            'messageId': i.toString(),
+            'message': element.message,
+            'senderId': element.senderId,
+            'receiverId': element.receiverId,
+            'time': DateTime.now().toString(),
+            'contentType': element.contentType.type,
+            'imageInfoId': imageId,
+            'messageAudioId': audioId,
+            'messageVideoId': videoId,
+          },
+          conflictAlgorithm: ConflictAlgorithm.ignore);
+      i++;
     }
   }
 

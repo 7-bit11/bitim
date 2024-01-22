@@ -1,4 +1,4 @@
-// ignore_for_file: constant_identifier_names
+// ignore_for_file: constant_identifier_names, depend_on_referenced_packages
 
 import 'package:sqflite/sqflite.dart';
 
@@ -28,7 +28,7 @@ class BitDataBase {
       await db.execute(
           'CREATE TABLE $DATA_TABLENAME_MESSAGEIMAGE ( id TEXT,  url TEXT, width INTEGER, height INTEGER,unique(id))');
       await db.execute(
-          'CREATE TABLE $DATA_TABLENAME_MESSAGE ( messageId TEXT,  message TEXT, senderId TEXT,receiverId TEXT,time TEXT,contentType INTEGER,imageInfo TEXT,messageAudio TEXT,messageVideo TEXT,unique(messageId))');
+          'CREATE TABLE $DATA_TABLENAME_MESSAGE ( messageId TEXT,  message TEXT, senderId TEXT,receiverId TEXT,time TEXT,contentType INTEGER,imageInfoId TEXT,messageAudioId TEXT,messageVideoId TEXT,unique(messageId))');
     });
   }
 }

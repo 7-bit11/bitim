@@ -58,6 +58,8 @@ dependencies:
   sqflite: ^2.3.0
   json_annotation: ^4.8.1             #json
   uuid: ^4.3.3
+  extended_image: ^8.2.0
+  image_size_getter: ^2.1.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

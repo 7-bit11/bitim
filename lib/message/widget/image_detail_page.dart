@@ -82,66 +82,7 @@ class _NewDetailPageState extends State<ImageDetailPage>
           maxScale: 1.0,
           initialScale: .2,
           enableRotation: true,
-        )
-        // InteractiveViewer(
-        //     boundaryMargin: const EdgeInsets.all(80),
-        //     panEnabled: false,
-        //     scaleEnabled: true,
-        //     minScale: 1.0,
-        //     maxScale: 2.2,
-        //     child: CachedNetworkImage(
-        //       imageUrl: widget.url,
-        //     )),
-
-        //  ExtendedImageSlidePage(
-        //   slideAxis: SlideAxis.both,
-        //   slideType: SlideType.onlyImage,
-        //   slidePageBackgroundHandler: (offset, pageSize) {
-        //     return Colors.transparent;
-        //   },
-        //   resetPageDuration: const Duration(milliseconds: 200),
-        //   child: ExtendedImageGesturePageView(
-        //     children: [
-        //       ExtendedImage.network(
-        //         widget.url,
-        //         fit: BoxFit.contain,
-        //         enableSlideOutPage: true,
-        //         heroBuilderForSlidingPage: (image) => Hero(
-        //           tag: widget.url,
-        //           flightShuttleBuilder: (
-        //             flightContext,
-        //             animation,
-        //             flightDirection,
-        //             fromHeroContext,
-        //             toHeroContext,
-        //           ) {
-        //             final hero = (flightDirection == HeroFlightDirection.pop
-        //                 ? fromHeroContext.widget
-        //                 : toHeroContext.widget) as Hero;
-        //             return hero.child;
-        //           },
-        //           child: image,
-        //         ),
-        //         mode: ExtendedImageMode.gesture,
-        //         initGestureConfigHandler: (s) {
-        //           return GestureConfig(
-        //               minScale: 0.9,
-        //               animationMinScale: 0.7,
-        //               maxScale: 5.0,
-        //               animationMaxScale: 5.5,
-        //               speed: 1.0,
-        //               inertialSpeed: 100.0,
-        //               initialScale: 1.0,
-        //               inPageView: false);
-        //         },
-        //         loadStateChanged: (state) {
-        //           return null;
-        //         },
-        //       ),
-        //     ],
-        //   ),
-        // ),
-        );
+        ));
   }
 
   @override

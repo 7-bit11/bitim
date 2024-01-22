@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
 
 class ChatsPage extends StatefulWidget {
   const ChatsPage({super.key});
@@ -25,10 +24,10 @@ class _ChatsPageState extends State<ChatsPage> {
   }
 
   void initCacheData() async {
-    await Future.delayed(Durations.extralong1);
+    await Future.delayed(Durations.extralong4);
     Database database = await BitDataBase.database;
     List<Map<String, Object?>> data =
-        await database.query('CHATSTABLE', orderBy: 'id ASC');
+        await database.query(BitDataBase.DATA_TABLENAME, orderBy: 'id ASC');
     for (var element in data) {
       ChatsModel chatsModel = ChatsModel.fromJson(element);
       chatsModels.add(chatsModel);
@@ -175,7 +174,7 @@ class _ChatsPageState extends State<ChatsPage> {
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
                   onTap: () => Get.to(
-                      () => PersonalChatPage(name: chatsModels[index].name)),
+                      () => PersonalChatPage(chatsModel: chatsModels[index])),
                   child: DefaultTextStyle(
                       style: const TextStyle(color: Colors.black, fontSize: 15),
                       child: buildWidget(chatsModel: chatsModels[index])),

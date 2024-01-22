@@ -1,20 +1,27 @@
 // ignore_for_file: depend_on_referenced_packages
 
+import 'package:bit_im/chats/chats_model.dart';
 import 'package:bit_im/message/message.dart';
 import 'package:bit_im/message/message_content_type_enum.dart';
 import 'package:bit_im/message/role_enum.dart';
 import 'package:bit_im/message/widget/audio_widget.dart';
 import 'package:bit_im/message/widget/image_widget.dart';
+import 'package:bit_im/message/widget/localImage_widget.dart';
 import 'package:bit_im/message/widget/text_widget.dart';
 import 'package:bit_im/message/widget/video_widget.dart';
+import 'package:bit_im/user/user.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class MessageWidget extends StatefulWidget {
   const MessageWidget(
-      {super.key, required this.message, required this.messages});
+      {super.key,
+      required this.message,
+      required this.messages,
+      required this.chatsModel});
   final Message message;
   final List<Message> messages;
+  final ChatsModel chatsModel;
   @override
   State<MessageWidget> createState() => _MessageWidgetState();
 }
@@ -36,12 +43,10 @@ class _MessageWidgetState extends State<MessageWidget> {
     //根据用户id查询用户信息 1001默认为用户自己本地存储的用户id
     if (widget.message.senderId == '1001') {
       roleEnum = RoleEnum.i;
-      url =
-          'https://upload.jianshu.io/users/upload_avatars/26977695/60eaf225-00fe-4028-95bd-1652cd174ee6.jpg';
-    } else if (widget.message.senderId == '1002') {
+      url = UserInfo.URL;
+    } else {
       roleEnum = RoleEnum.you;
-      url =
-          'https://upload.jianshu.io/users/upload_avatars/7705786/a90dc05d-63f6-4690-8c1a-dcf7ff4422df.jpg';
+      url = widget.chatsModel.url;
     }
   }
 
@@ -78,6 +83,11 @@ class _MessageWidgetState extends State<MessageWidget> {
       case MessageContentType.video:
         mseeageContent = VideoMessageWidget(
             message: widget.message, messages: widget.messages);
+      case MessageContentType.localImage:
+        mseeageContent = LocalImageMessageWidget(
+            aspectRatio: widget.message.imageInfo!.width /
+                widget.message.imageInfo!.height,
+            url: widget.message.imageInfo!.url);
       default:
         mseeageContent = Text(widget.message.message);
     }
@@ -103,7 +113,9 @@ class _MessageWidgetState extends State<MessageWidget> {
               constraints: BoxConstraints(
                   maxWidth: MediaQuery.of(context).size.width * .7),
               padding: widget.message.contentType == MessageContentType.image ||
-                      widget.message.contentType == MessageContentType.video
+                      widget.message.contentType == MessageContentType.video ||
+                      widget.message.contentType ==
+                          MessageContentType.localImage
                   ? const EdgeInsets.all(0)
                   : const EdgeInsets.all(10),
               decoration: const BoxDecoration(

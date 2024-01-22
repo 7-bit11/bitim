@@ -8,7 +8,8 @@ enum MessageContentType {
   audio(type: 4),
   file(type: 5),
   location(type: 6),
-  custom(type: 7);
+  custom(type: 7),
+  localImage(type: 8);
 
   final int type;
   const MessageContentType({required this.type});

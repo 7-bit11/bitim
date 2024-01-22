@@ -20,10 +20,13 @@ class Message {
   //消息类型
   late MessageContentType contentType;
   //图片信息
+  late String? imageInfoId;
   late ImageInfo? imageInfo;
   //语音信息
+  late String? messageAudioId;
   late MessageAudio? messageAudio;
   //视频信息
+  late String? messageVideoId;
   late MessageVideo? messageVideo;
 
   //构造函数
@@ -36,7 +39,10 @@ class Message {
       required this.contentType,
       this.imageInfo,
       this.messageAudio,
-      this.messageVideo});
+      this.messageVideo,
+      this.imageInfoId,
+      this.messageAudioId,
+      this.messageVideoId});
 
   factory Message.fromJson(Map<String, dynamic> data) =>
       _$MessageFromJson(data);
