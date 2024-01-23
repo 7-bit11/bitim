@@ -150,10 +150,6 @@ class _FramePageState extends State<FramePage> {
   void initData1() async {
     final audioFile =
         File(p.join((await getTemporaryDirectory()).path, 'xxx.mp3'));
-    final audioFile1 =
-        File(p.join((await getTemporaryDirectory()).path, 'eva.mp3'));
-    final audioFile2 =
-        File(p.join((await getTemporaryDirectory()).path, 'qimeide.mp3'));
     List<message.Message> messagedata = [
       message.Message(
         message: '你好',
@@ -276,8 +272,8 @@ class _FramePageState extends State<FramePage> {
       message.Message(
           message: 'audio',
           time: '2021-01-01 12:00:00',
-          senderId: '1001',
-          receiverId: '1002',
+          senderId: '1002',
+          receiverId: '1001',
           contentType: MessageContentType.audio,
           messageId: '1012',
           messageAudio: MessageAudio(
@@ -289,15 +285,6 @@ class _FramePageState extends State<FramePage> {
           receiverId: '1002',
           messageId: '1013',
           contentType: MessageContentType.text),
-      message.Message(
-          message: 'audio',
-          time: '2021-01-01 12:00:00',
-          senderId: '1002',
-          receiverId: '1001',
-          contentType: MessageContentType.audio,
-          messageId: '1014',
-          messageAudio: MessageAudio(
-              audioFilePath: audioFile1.path, audioFileName: 'eva')),
       message.Message(
           message: '残酷な天使のてーぜ',
           time: '2021-01-01 12:00:00',
@@ -312,15 +299,6 @@ class _FramePageState extends State<FramePage> {
           receiverId: '1002',
           messageId: '1016',
           contentType: MessageContentType.text),
-      message.Message(
-          message: 'audio',
-          time: '2021-01-01 12:00:00',
-          senderId: '1001',
-          receiverId: '1002',
-          messageId: '1017',
-          contentType: MessageContentType.audio,
-          messageAudio: MessageAudio(
-              audioFilePath: audioFile2.path, audioFileName: 'qimeide')),
       message.Message(
           message: 'audio',
           time: '2021-01-01 12:00:00',

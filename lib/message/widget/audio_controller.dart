@@ -61,15 +61,16 @@ class AudioController extends gett.GetxController {
 
   initAudio() async {
     //创建音频文件
-    final audioFile = File(p.join((await getTemporaryDirectory()).path,
-        '${message.messageAudio!.audioFileName}.mp3'));
+    final audioFile = File(message.messageAudio!.audioFilePath);
 
     //是否存在
-    // if (await audioFile.exists()) {
-    await audioFile.writeAsBytes((await rootBundle
-            .load('assets/audios/${message.messageAudio!.audioFileName}.mp3'))
-        .buffer
-        .asUint8List());
+    if (!await audioFile.exists()) {
+      debugPrint('当前不存在的音频文件是==${message.messageAudio!.audioFilePath}');
+      await audioFile.writeAsBytes((await rootBundle
+              .load('assets/audios/${message.messageAudio!.audioFileName}.mp3'))
+          .buffer
+          .asUint8List());
+    }
     waveformData = await controller.extractWaveformData(
       path: message.messageAudio!.audioFilePath,
       noOfSamples: 25,
@@ -82,12 +83,14 @@ class AudioController extends gett.GetxController {
       volume: 1,
     );
     controller.onExtractionProgress.listen((progress) async {
-      debugPrint("当前的音频加载进度是：=======  $progress");
+      debugPrint(
+          "当前的${message.messageAudio!.audioFileName}音频加载进度是：=======  $progress");
       final duration1 = await controller.getDuration(DurationType.max);
       duration.value = Duration(milliseconds: duration1);
     });
     controller.onCurrentDurationChanged.listen((duration) async {
-      debugPrint("当前音频播放的进度ms：=======  $duration");
+      debugPrint(
+          "当前${message.messageAudio!.audioFileName}音频播放的进度ms：=======  $duration");
       if (((this.duration.value.inSeconds * 1000) - 300) < duration) {
         await controller.seekTo(0);
         isPlay.value = false;

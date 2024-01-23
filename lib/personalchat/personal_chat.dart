@@ -2,16 +2,20 @@
 
 import 'dart:io';
 
+import 'package:animate_do/animate_do.dart';
 import 'package:bit_im/chats/chats_model.dart';
 import 'package:bit_im/frame/data_base.dart';
 import 'package:bit_im/message/message.dart' as message;
 import 'package:bit_im/message/message_audio.dart' as audio;
+import 'package:bit_im/message/message_audio.dart';
 import 'package:bit_im/message/message_content_type_enum.dart';
 import 'package:bit_im/message/message_video.dart';
 import 'package:bit_im/message/message_widget.dart';
+import 'package:bit_im/message/widget/voice_bar.dart';
 import 'package:bit_im/user/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_size_getter/file_input.dart';
 import 'package:image_size_getter/image_size_getter.dart';
@@ -39,7 +43,10 @@ class _PersonalChatPageState extends State<PersonalChatPage> {
     focusNode.addListener(() {
       if (focusNode.hasFocus) {
         if (height > 0) {
-          setState(() => height = 0);
+          height = 0;
+          if (mounted) {
+            setState(() {});
+          }
         }
       }
     });
@@ -93,7 +100,9 @@ class _PersonalChatPageState extends State<PersonalChatPage> {
             'imageInfoId': mesg.imageInfoId
           },
           conflictAlgorithm: ConflictAlgorithm.replace);
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     }
   }
 
@@ -101,6 +110,7 @@ class _PersonalChatPageState extends State<PersonalChatPage> {
   List<message.Message> messages = [];
   late double height = 0;
   late FocusNode focusNode;
+  late bool isAudio = false;
   //加载数据
   void initData() async {
     Database database = await BitDataBase.database;
@@ -337,7 +347,9 @@ class _PersonalChatPageState extends State<PersonalChatPage> {
     // ];
     // //messages.add(await initAudio());
     // messages = messages.reversed.toList();
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   TextEditingController textEditingController = TextEditingController();
@@ -370,84 +382,205 @@ class _PersonalChatPageState extends State<PersonalChatPage> {
           Container(
             color: const Color(0xffF7F7F7),
             height: 50,
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 5),
             child: Row(children: [
-              IconButton(
-                  style: const ButtonStyle(
-                      overlayColor:
-                          MaterialStatePropertyAll(Colors.transparent)),
-                  icon: SvgPicture.asset(
-                    'assets/images/Icon.svg',
-                    width: 24,
-                    height: 24,
-                    colorFilter:
-                        const ColorFilter.mode(Colors.black54, BlendMode.srcIn),
-                  ),
-                  onPressed: () {
-                    FocusScope.of(context).requestFocus(FocusNode());
-                    setState(() => height == 0
-                        ? height = MediaQuery.of(context).size.height * .3
-                        : height = 0);
-                  }),
+              const SizedBox(width: 10),
+              SizedBox(
+                width: 40,
+                child: IconButton(
+                    style: const ButtonStyle(
+                        overlayColor:
+                            MaterialStatePropertyAll(Colors.transparent)),
+                    icon: SvgPicture.asset(
+                      isAudio
+                          ? 'assets/images/microphone.svg'
+                          : 'assets/images/Edit_Pencil_Line.svg',
+                      width: 24,
+                      height: 24,
+                      colorFilter: const ColorFilter.mode(
+                          Colors.black54, BlendMode.srcIn),
+                    ),
+                    onPressed: () {
+                      FocusScope.of(context).requestFocus(FocusNode());
+                      isAudio = !isAudio;
+                      if (!isAudio) {
+                        if (height > 0) {
+                          height = 0;
+                        }
+                      }
+                      if (mounted) {
+                        setState(() {});
+                      }
+                    }),
+              ),
               const SizedBox(width: 10),
               Expanded(
-                  child: TextField(
-                focusNode: focusNode,
-                controller: textEditingController,
-                style: const TextStyle(color: Colors.black),
-                cursorColor: const Color(0xff002DE3),
-                decoration: const InputDecoration(
-                  prefixIconConstraints: BoxConstraints(
-                      maxHeight: 24, minHeight: 24, maxWidth: 40, minWidth: 40),
-                  suffixIconConstraints: BoxConstraints(
-                      maxHeight: 38, minHeight: 38, minWidth: 100),
-                  isCollapsed: true,
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(borderSide: BorderSide.none),
-                  hintStyle: TextStyle(color: Colors.black),
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                  enabledBorder:
-                      OutlineInputBorder(borderSide: BorderSide.none),
-                  focusedBorder:
-                      OutlineInputBorder(borderSide: BorderSide.none),
-                ),
-              )),
-              const SizedBox(width: 15),
-              IconButton(
-                  style: const ButtonStyle(
-                      overlayColor:
-                          MaterialStatePropertyAll(Colors.transparent)),
-                  onPressed: () async {
-                    if (textEditingController.value.text.isEmpty) return;
-                    message.Message mesg = message.Message(
-                      message: textEditingController.value.text,
-                      time: DateTime.now().toString(),
-                      senderId: '1001',
-                      receiverId: widget.chatsModel.id.toString(),
-                      contentType: MessageContentType.text,
-                      messageId: const Uuid().v1(),
-                    );
-                    messages.insert(0, mesg);
-                    Database database = await BitDataBase.database;
-                    await database.insert(
-                        BitDataBase.DATA_TABLENAME_MESSAGE,
-                        {
-                          'messageId': mesg.messageId,
-                          'contentType': mesg.contentType.type,
-                          'time': mesg.time,
-                          'senderId': mesg.senderId,
-                          'receiverId': mesg.receiverId,
-                          'message': mesg.message
-                        },
-                        conflictAlgorithm: ConflictAlgorithm.replace);
-                    textEditingController.clear();
-                    setState(() {});
-                  },
-                  icon: SvgPicture.asset('assets/images/send.svg',
-                      width: 24, height: 24)),
-              const SizedBox(width: 5),
+                  child: !isAudio
+                      ? FadeInUp(
+                          duration: Durations.long1,
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(vertical: 8),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(3),
+                                border: Border.all(
+                                    width: 1,
+                                    color: Colors.grey.shade300,
+                                    style: BorderStyle.solid)),
+                            alignment: Alignment.center,
+                            child: VoiceBar(
+                              onRecorderEnd: (String path, int duration,
+                                  String name) async {
+                                debugPrint(
+                                    "=======================================================");
+                                debugPrint(path);
+                                var audioId = const Uuid().v4();
+                                Database database = await BitDataBase.database;
+                                message.Message mesg = message.Message(
+                                    message: name,
+                                    time: DateTime.now().toString(),
+                                    senderId: '1001',
+                                    receiverId: widget.chatsModel.id.toString(),
+                                    contentType: MessageContentType.audio,
+                                    messageId: const Uuid().v1(),
+                                    messageAudioId: audioId,
+                                    messageAudio: MessageAudio(
+                                        audioFilePath: path,
+                                        audioFileName: name));
+                                int audioOK = await database.insert(
+                                    BitDataBase.DATA_TABLENAME_MESSAGEAUDIO,
+                                    {
+                                      'id': mesg.messageAudioId,
+                                      'audioFilePath':
+                                          mesg.messageAudio!.audioFilePath,
+                                      'audioFileName':
+                                          mesg.messageAudio!.audioFileName
+                                    },
+                                    conflictAlgorithm:
+                                        ConflictAlgorithm.replace);
+                                int messageOK = await database.insert(
+                                    BitDataBase.DATA_TABLENAME_MESSAGE,
+                                    {
+                                      'messageId': mesg.messageId,
+                                      'contentType': mesg.contentType.type,
+                                      'time': mesg.time,
+                                      'senderId': mesg.senderId,
+                                      'receiverId': mesg.receiverId,
+                                      'message': mesg.message,
+                                      'messageAudioId': mesg.messageAudioId
+                                    },
+                                    conflictAlgorithm:
+                                        ConflictAlgorithm.replace);
+                                if (audioOK > 0 && messageOK > 0) {
+                                  messages.insert(0, mesg);
+                                  debugPrint("添加成功");
+                                } else {
+                                  debugPrint("添加失败");
+                                }
+
+                                if (mounted) {
+                                  setState(() {});
+                                }
+                              },
+                            ),
+                          ),
+                        )
+                      : FadeIn(
+                          duration: Durations.long1,
+                          child: TextField(
+                            focusNode: focusNode,
+                            controller: textEditingController,
+                            style: const TextStyle(color: Colors.black),
+                            cursorColor: const Color(0xff002DE3),
+                            decoration: const InputDecoration(
+                              prefixIconConstraints: BoxConstraints(
+                                  maxHeight: 24,
+                                  minHeight: 24,
+                                  maxWidth: 40,
+                                  minWidth: 40),
+                              suffixIconConstraints: BoxConstraints(
+                                  maxHeight: 38, minHeight: 38, minWidth: 100),
+                              isCollapsed: true,
+                              filled: true,
+                              fillColor: Colors.white,
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide.none),
+                              hintStyle: TextStyle(color: Colors.black),
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 5, horizontal: 10),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide.none),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide.none),
+                            ),
+                          ),
+                        )),
+              const SizedBox(width: 10),
+              SizedBox(
+                width: 40,
+                child: IconButton(
+                    style: const ButtonStyle(
+                        overlayColor:
+                            MaterialStatePropertyAll(Colors.transparent),
+                        padding: MaterialStatePropertyAll(EdgeInsets.zero)),
+                    onPressed: () async {
+                      if (textEditingController.value.text.isEmpty) return;
+                      message.Message mesg = message.Message(
+                        message: textEditingController.value.text,
+                        time: DateTime.now().toString(),
+                        senderId: '1001',
+                        receiverId: widget.chatsModel.id.toString(),
+                        contentType: MessageContentType.text,
+                        messageId: const Uuid().v1(),
+                      );
+                      messages.insert(0, mesg);
+                      Database database = await BitDataBase.database;
+                      await database.insert(
+                          BitDataBase.DATA_TABLENAME_MESSAGE,
+                          {
+                            'messageId': mesg.messageId,
+                            'contentType': mesg.contentType.type,
+                            'time': mesg.time,
+                            'senderId': mesg.senderId,
+                            'receiverId': mesg.receiverId,
+                            'message': mesg.message
+                          },
+                          conflictAlgorithm: ConflictAlgorithm.replace);
+                      textEditingController.clear();
+                      if (mounted) {
+                        setState(() {});
+                      }
+                    },
+                    icon: SvgPicture.asset('assets/images/send.svg',
+                        width: 24, height: 24)),
+              ),
+              SizedBox(
+                width: 40,
+                child: IconButton(
+                    style: const ButtonStyle(
+                        overlayColor:
+                            MaterialStatePropertyAll(Colors.transparent),
+                        padding: MaterialStatePropertyAll(EdgeInsets.zero)),
+                    icon: SvgPicture.asset(
+                      'assets/images/Icon.svg',
+                      width: 24,
+                      height: 24,
+                      colorFilter: const ColorFilter.mode(
+                          Colors.black54, BlendMode.srcIn),
+                    ),
+                    onPressed: () {
+                      FocusScope.of(context).requestFocus(FocusNode());
+                      if (!isAudio) {
+                        isAudio = !isAudio;
+                      }
+                      height == 0
+                          ? height = MediaQuery.of(context).size.height * .3
+                          : height = 0;
+                      if (mounted) {
+                        setState(() {});
+                      }
+                    }),
+              ),
+              const SizedBox(width: 5)
             ]),
           ),
           AnimatedContainer(
