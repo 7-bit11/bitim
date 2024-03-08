@@ -52,4 +52,5 @@ const _$MessageContentTypeEnumMap = {
   MessageContentType.location: 6,
   MessageContentType.custom: 7,
   MessageContentType.localImage: 8,
+  MessageContentType.localVideo: 9,
 };

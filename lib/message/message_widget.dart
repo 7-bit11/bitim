@@ -28,9 +28,21 @@ class MessageWidget extends StatefulWidget {
 
 class _MessageWidgetState extends State<MessageWidget> {
   late RoleEnum roleEnum = RoleEnum.i;
+
+  late EdgeInsetsGeometry padding = EdgeInsets.zero;
   @override
   void initState() {
     super.initState();
+    initPadding();
+  }
+
+  void initPadding() {
+    padding = widget.message.contentType == MessageContentType.image ||
+            widget.message.contentType == MessageContentType.video ||
+            widget.message.contentType == MessageContentType.localImage ||
+            widget.message.contentType == MessageContentType.localVideo
+        ? const EdgeInsets.all(0)
+        : const EdgeInsets.all(10);
   }
 
   late Widget mseeageContent;
@@ -80,7 +92,7 @@ class _MessageWidgetState extends State<MessageWidget> {
             fixedWaveColor: fixedWaveColor,
             roleEnum: roleEnum,
             messages: widget.messages);
-      case MessageContentType.video:
+      case MessageContentType.video || MessageContentType.localVideo:
         mseeageContent = VideoMessageWidget(
             message: widget.message, messages: widget.messages);
       case MessageContentType.localImage:
@@ -112,12 +124,7 @@ class _MessageWidgetState extends State<MessageWidget> {
           Container(
               constraints: BoxConstraints(
                   maxWidth: MediaQuery.of(context).size.width * .7),
-              padding: widget.message.contentType == MessageContentType.image ||
-                      widget.message.contentType == MessageContentType.video ||
-                      widget.message.contentType ==
-                          MessageContentType.localImage
-                  ? const EdgeInsets.all(0)
-                  : const EdgeInsets.all(10),
+              padding: padding,
               decoration: const BoxDecoration(
                   color: Color(0xff0099FF),
                   borderRadius: BorderRadius.all(
@@ -157,10 +164,7 @@ class _MessageWidgetState extends State<MessageWidget> {
           Container(
               constraints: BoxConstraints(
                   maxWidth: MediaQuery.of(context).size.width * .7),
-              padding: widget.message.contentType == MessageContentType.image ||
-                      widget.message.contentType == MessageContentType.video
-                  ? const EdgeInsets.all(0)
-                  : const EdgeInsets.all(10),
+              padding: padding,
               decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.all(

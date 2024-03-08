@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:bit_im/message/message.dart';
 import 'package:bit_im/message/widget/video_controller.dart';
+import 'package:bit_im/message/widget/video_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -69,6 +70,38 @@ class VideoMessageWidget extends GetView<VideoController> {
                                   colorFilter: const ColorFilter.mode(
                                       Colors.white, BlendMode.srcIn)),
                             ))
+                    : const SizedBox(),
+                controller.isInited.value
+                    ? Positioned(
+                        right: 0,
+                        top: 0,
+                        child: GestureDetector(
+                          onTap: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return VideoDetailMessageWidget(
+                                    message: message,
+                                    messages: messages,
+                                  );
+                                });
+                          },
+                          child: Container(
+                            color: Colors.grey.shade100.withOpacity(.2),
+                            width: 40,
+                            height: 40,
+                            child: Center(
+                              child: SvgPicture.asset(
+                                  'assets/images/Expand.svg',
+                                  width: 24,
+                                  height: 24,
+                                  fit: BoxFit.cover,
+                                  colorFilter: const ColorFilter.mode(
+                                      Colors.white, BlendMode.srcIn)),
+                            ),
+                          ),
+                        ),
+                      )
                     : const SizedBox()
               ],
             ),

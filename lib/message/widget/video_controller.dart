@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bit_im/message/message.dart';
 import 'package:bit_im/message/message_content_type_enum.dart';
 import 'package:get/get.dart';
@@ -20,17 +22,30 @@ class VideoController extends GetxController {
   }
 
   void initVideoPlayer() {
-    videoPlayerController =
-        VideoPlayerController.networkUrl(Uri.parse(message.messageVideo!.url))
-          ..initialize().then((_) {
-            if (videoPlayerController.value.isInitialized) {
-              isInited.value = true;
-              w.value = videoPlayerController.value.size.width;
-              h.value = videoPlayerController.value.size.height;
-              //videoPlayerController.play();
-            }
-          });
-    videoPlayerController.addListener(() {});
+    if (message.contentType == MessageContentType.video) {
+      videoPlayerController =
+          VideoPlayerController.networkUrl(Uri.parse(message.messageVideo!.url))
+            ..initialize().then((_) {
+              if (videoPlayerController.value.isInitialized) {
+                isInited.value = true;
+                w.value = videoPlayerController.value.size.width;
+                h.value = videoPlayerController.value.size.height;
+                //videoPlayerController.play();
+              }
+            });
+    } else {
+      videoPlayerController =
+          VideoPlayerController.file(File(message.messageVideo!.url))
+            ..initialize().then((_) {
+              if (videoPlayerController.value.isInitialized) {
+                isInited.value = true;
+                w.value = videoPlayerController.value.size.width;
+                h.value = videoPlayerController.value.size.height;
+                //videoPlayerController.play();
+              }
+            });
+    }
+    //
   }
 
   void play() {
@@ -38,10 +53,10 @@ class VideoController extends GetxController {
       for (var element in messages) {
         if (element.contentType == MessageContentType.video) {
           if (message.messageVideo!.url != element.messageVideo!.url) {
-            VideoController videoController =
-                Get.find<VideoController>(tag: element.messageVideo!.url);
-            videoController.isPlay.value = false;
-            videoController.playCircleOpacity.value = 1;
+            // VideoController? videoController =
+            //     Get.find<VideoController>(tag: element.messageVideo!.url);
+            // videoController.isPlay.value = false;
+            // videoController.playCircleOpacity.value = 1;
           }
         }
       }

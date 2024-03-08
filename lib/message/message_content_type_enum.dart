@@ -9,7 +9,8 @@ enum MessageContentType {
   file(type: 5),
   location(type: 6),
   custom(type: 7),
-  localImage(type: 8);
+  localImage(type: 8),
+  localVideo(type: 9);
 
   final int type;
   const MessageContentType({required this.type});

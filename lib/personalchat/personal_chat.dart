@@ -13,16 +13,17 @@ import 'package:bit_im/message/message_video.dart';
 import 'package:bit_im/message/message_widget.dart';
 import 'package:bit_im/message/widget/voice_bar.dart';
 import 'package:bit_im/user/user.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:image_size_getter/file_input.dart';
-import 'package:image_size_getter/image_size_getter.dart';
+import 'package:image_size_getter/file_input.dart' as file_input;
+import 'package:image_size_getter/image_size_getter.dart' as size_getter;
 import 'package:bit_im/message/message_image.dart' as mimage;
 import 'package:sqflite/sqflite.dart';
 import 'package:uuid/uuid.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:video_player/video_player.dart';
 
 class PersonalChatPage extends StatefulWidget {
   const PersonalChatPage({super.key, required this.chatsModel});
@@ -61,7 +62,8 @@ class _PersonalChatPageState extends State<PersonalChatPage> {
     final ImagePicker picker = ImagePicker();
     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
-      final size = ImageSizeGetter.getSize(FileInput(File(image.path)));
+      size_getter.Size size = size_getter.ImageSizeGetter.getSize(
+          file_input.FileInput(File(image.path)));
       String id = const Uuid().v4();
       message.Message mesg = message.Message(
           message: image.path,
@@ -106,11 +108,66 @@ class _PersonalChatPageState extends State<PersonalChatPage> {
     }
   }
 
+  void updateVideo() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? galleryVideo =
+        await picker.pickVideo(source: ImageSource.gallery);
+    if (galleryVideo != null) {
+      Size size = Size.zero;
+      VideoPlayerController playerControlle =
+          VideoPlayerController.file(File(galleryVideo.path));
+      await playerControlle.initialize().whenComplete(() {
+        VideoPlayerValue videoPlayerValue = playerControlle.value;
+        size = videoPlayerValue.size;
+      });
+      playerControlle.dispose();
+      String id = const Uuid().v4();
+      message.Message mesg = message.Message(
+          message: galleryVideo.path,
+          time: DateTime.now().toString(),
+          senderId: '1001',
+          receiverId: widget.chatsModel.id.toString(),
+          contentType: MessageContentType.localVideo,
+          messageId: const Uuid().v1(),
+          messageVideoId: id,
+          messageVideo: MessageVideo(
+              url: galleryVideo.path,
+              height: size.height.toDouble(),
+              width: size.width.toDouble()));
+      messages.insert(0, mesg);
+      Database database = await BitDataBase.database;
+      await database.insert(
+          BitDataBase.DATA_TABLENAME_MESSAGEVIDEO,
+          {
+            'id': mesg.messageVideoId,
+            'url': mesg.messageVideo!.url,
+            'width': mesg.messageVideo!.width,
+            'height': mesg.messageVideo!.height
+          },
+          conflictAlgorithm: ConflictAlgorithm.replace);
+      await database.insert(
+          BitDataBase.DATA_TABLENAME_MESSAGE,
+          {
+            'messageId': mesg.messageId,
+            'contentType': mesg.contentType.type,
+            'time': mesg.time,
+            'senderId': mesg.senderId,
+            'receiverId': mesg.receiverId,
+            'message': mesg.message,
+            'messageVideoId': mesg.messageVideoId
+          },
+          conflictAlgorithm: ConflictAlgorithm.replace);
+      if (mounted) {
+        setState(() {});
+      }
+    }
+  }
+
   // messages
   List<message.Message> messages = [];
   late double height = 0;
   late FocusNode focusNode;
-  late bool isAudio = false;
+  late bool isAudio = true;
   //加载数据
   void initData() async {
     Database database = await BitDataBase.database;
@@ -136,7 +193,7 @@ class _PersonalChatPageState extends State<PersonalChatPage> {
               whereArgs: [myMessage.messageAudioId]);
           myMessage.messageAudio = audio.MessageAudio.fromJson(audioData[0]);
           break;
-        case MessageContentType.video:
+        case MessageContentType.video || MessageContentType.localVideo:
           List<Map<String, Object?>> videoData = await database.query(
               BitDataBase.DATA_TABLENAME_MESSAGEVIDEO,
               where: 'id=?',
@@ -522,6 +579,33 @@ class _PersonalChatPageState extends State<PersonalChatPage> {
                         overlayColor:
                             MaterialStatePropertyAll(Colors.transparent),
                         padding: MaterialStatePropertyAll(EdgeInsets.zero)),
+                    icon: SvgPicture.asset(
+                      'assets/images/Icon.svg',
+                      width: 24,
+                      height: 24,
+                      colorFilter: const ColorFilter.mode(
+                          Colors.black54, BlendMode.srcIn),
+                    ),
+                    onPressed: () {
+                      FocusScope.of(context).requestFocus(FocusNode());
+                      if (!isAudio) {
+                        isAudio = !isAudio;
+                      }
+                      height == 0
+                          ? height = MediaQuery.of(context).size.height * .3
+                          : height = 0;
+                      if (mounted) {
+                        setState(() {});
+                      }
+                    }),
+              ),
+              SizedBox(
+                width: 40,
+                child: IconButton(
+                    style: const ButtonStyle(
+                        overlayColor:
+                            MaterialStatePropertyAll(Colors.transparent),
+                        padding: MaterialStatePropertyAll(EdgeInsets.zero)),
                     onPressed: () async {
                       if (textEditingController.value.text.isEmpty) return;
                       message.Message mesg = message.Message(
@@ -553,33 +637,6 @@ class _PersonalChatPageState extends State<PersonalChatPage> {
                     icon: SvgPicture.asset('assets/images/send.svg',
                         width: 24, height: 24)),
               ),
-              SizedBox(
-                width: 40,
-                child: IconButton(
-                    style: const ButtonStyle(
-                        overlayColor:
-                            MaterialStatePropertyAll(Colors.transparent),
-                        padding: MaterialStatePropertyAll(EdgeInsets.zero)),
-                    icon: SvgPicture.asset(
-                      'assets/images/Icon.svg',
-                      width: 24,
-                      height: 24,
-                      colorFilter: const ColorFilter.mode(
-                          Colors.black54, BlendMode.srcIn),
-                    ),
-                    onPressed: () {
-                      FocusScope.of(context).requestFocus(FocusNode());
-                      if (!isAudio) {
-                        isAudio = !isAudio;
-                      }
-                      height == 0
-                          ? height = MediaQuery.of(context).size.height * .3
-                          : height = 0;
-                      if (mounted) {
-                        setState(() {});
-                      }
-                    }),
-              ),
               const SizedBox(width: 5)
             ]),
           ),
@@ -590,73 +647,68 @@ class _PersonalChatPageState extends State<PersonalChatPage> {
               height: height,
               color: const Color(0xffF7F7F7),
               child: GridView(
-                  padding: const EdgeInsets.symmetric(vertical: 30),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 4),
                   children: [
                     GestureDetector(
+                      behavior: HitTestBehavior.opaque,
                       onTap: () => getLostData(),
-                      child: Column(children: [
-                        SvgPicture.asset('assets/images/Image_01.svg',
-                            colorFilter: const ColorFilter.mode(
-                                Colors.black54, BlendMode.srcIn),
-                            width: 26,
-                            height: 26),
-                        const SizedBox(height: 5),
-                        const Text('相册',
-                            style: TextStyle(color: Colors.grey, fontSize: 14))
-                      ]),
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset('assets/images/Image_01.svg',
+                                colorFilter: const ColorFilter.mode(
+                                    Colors.black54, BlendMode.srcIn),
+                                width: 26,
+                                height: 26),
+                            const SizedBox(height: 5),
+                            const Text('相册',
+                                style:
+                                    TextStyle(color: Colors.grey, fontSize: 14))
+                          ]),
                     ),
-                    Column(children: [
-                      SvgPicture.asset('assets/images/Folder.svg',
-                          colorFilter: const ColorFilter.mode(
-                              Colors.black54, BlendMode.srcIn),
-                          width: 26,
-                          height: 26),
-                      const SizedBox(height: 5),
-                      const Text('文件夹',
-                          style: TextStyle(color: Colors.grey, fontSize: 14))
-                    ]),
-                    Column(children: [
-                      SvgPicture.asset('assets/images/Image_01.svg',
-                          colorFilter: const ColorFilter.mode(
-                              Colors.black54, BlendMode.srcIn),
-                          width: 26,
-                          height: 26),
-                      const SizedBox(height: 5),
-                      const Text('相册',
-                          style: TextStyle(color: Colors.grey, fontSize: 14))
-                    ]),
-                    Column(children: [
-                      SvgPicture.asset('assets/images/Folder.svg',
-                          colorFilter: const ColorFilter.mode(
-                              Colors.black54, BlendMode.srcIn),
-                          width: 26,
-                          height: 26),
-                      const SizedBox(height: 5),
-                      const Text('文件夹',
-                          style: TextStyle(color: Colors.grey, fontSize: 14))
-                    ]),
-                    Column(children: [
-                      SvgPicture.asset('assets/images/Image_01.svg',
-                          colorFilter: const ColorFilter.mode(
-                              Colors.black54, BlendMode.srcIn),
-                          width: 26,
-                          height: 26),
-                      const SizedBox(height: 5),
-                      const Text('相册',
-                          style: TextStyle(color: Colors.grey, fontSize: 14))
-                    ]),
-                    Column(children: [
-                      SvgPicture.asset('assets/images/Folder.svg',
-                          colorFilter: const ColorFilter.mode(
-                              Colors.black54, BlendMode.srcIn),
-                          width: 26,
-                          height: 26),
-                      const SizedBox(height: 5),
-                      const Text('文件夹',
-                          style: TextStyle(color: Colors.grey, fontSize: 14))
-                    ]),
+                    GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () => updateVideo(),
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset('assets/images/Chromecast.svg',
+                                colorFilter: const ColorFilter.mode(
+                                    Colors.black54, BlendMode.srcIn),
+                                width: 26,
+                                height: 26),
+                            const SizedBox(height: 5),
+                            const Text('视频',
+                                style:
+                                    TextStyle(color: Colors.grey, fontSize: 14))
+                          ]),
+                    ),
+                    GestureDetector(
+                      onTap: () async {
+                        FilePickerResult? result =
+                            await FilePicker.platform.pickFiles();
+                        if (result != null) {
+                          File file = File(result.files.single.path!);
+                        } else {
+                          // User canceled the picker
+                        }
+                      },
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset('assets/images/Folder.svg',
+                                colorFilter: const ColorFilter.mode(
+                                    Colors.black54, BlendMode.srcIn),
+                                width: 26,
+                                height: 26),
+                            const SizedBox(height: 5),
+                            const Text('文件夹',
+                                style:
+                                    TextStyle(color: Colors.grey, fontSize: 14))
+                          ]),
+                    ),
                   ]))
         ],
       ),

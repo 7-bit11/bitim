@@ -60,6 +60,7 @@ dependencies:
   uuid: ^4.3.3
   extended_image: ^8.2.0
   image_size_getter: ^2.1.2
+  file_picker: ^6.1.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
