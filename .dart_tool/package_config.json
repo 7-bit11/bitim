@@ -278,12 +278,6 @@
       "languageVersion": "2.19"
     },
     {
-      "name": "flutter_openim_sdk",
-      "rootUri": "file:///C:/Users/ZY-PC/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/flutter_openim_sdk-3.4.0+2",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
       "name": "flutter_plugin_android_lifecycle",
       "rootUri": "file:///C:/Users/ZY-PC/AppData/Local/Pub/Cache/hosted/pub.flutter-io.cn/flutter_plugin_android_lifecycle-2.0.17",
       "packageUri": "lib/",
@@ -884,7 +878,7 @@
       "languageVersion": "3.2"
     }
   ],
-  "generated": "2024-02-22T02:21:16.123172Z",
+  "generated": "2024-03-08T06:16:49.479767Z",
   "generator": "pub",
   "generatorVersion": "3.3.0"
 }
