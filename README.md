@@ -1,4 +1,4 @@
-![输入图片说明](assets/6dfe60bcb0f3ec887a60d97e34ea5474.jpg)![输入图片说明](assets/a02f32ae5a961bcc96b3a5fce1dfcbeb.jpg)![输入图片说明](assets/289b07afa483ef2cb4ce431a406ba85b.jpg)# bit_im
+# bit_im
 
 Bit_IM 这个项目是我在学习过程中，不断学习探索而做的一个项目.
 This project is one that I have been working on through continuous learning and exploration during my learning process
@@ -38,3 +38,6 @@ Friend grouping
 ## 项目展示
 
 ![输入图片说明](assets/e89e035823b49c5fecdbdf6326ed8b7d.jpg)
+![输入图片说明](assets/6dfe60bcb0f3ec887a60d97e34ea5474.jpg)
+![输入图片说明](assets/a02f32ae5a961bcc96b3a5fce1dfcbeb.jpg)
+![输入图片说明](assets/289b07afa483ef2cb4ce431a406ba85b.jpg)
