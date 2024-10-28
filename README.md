@@ -37,7 +37,7 @@ Friend grouping
 ## Project Display
 ## 项目展示
 
-![输入图片说明](assets/e89e035823b49c5fecdbdf6326ed8b7d.jpg 300x600)
-![输入图片说明](assets/6dfe60bcb0f3ec887a60d97e34ea5474.jpg 300x600)
-![输入图片说明](assets/a02f32ae5a961bcc96b3a5fce1dfcbeb.jpg 300x600)
-![输入图片说明](assets/289b07afa483ef2cb4ce431a406ba85b.jpg 300x600)
+![输入图片说明](assets/e89e035823b49c5fecdbdf6326ed8b7d.jpg =300x600)
+![输入图片说明](assets/6dfe60bcb0f3ec887a60d97e34ea5474.jpg =300x600)
+![输入图片说明](assets/a02f32ae5a961bcc96b3a5fce1dfcbeb.jpg =300x600)
+![输入图片说明](assets/289b07afa483ef2cb4ce431a406ba85b.jpg =300x600)
