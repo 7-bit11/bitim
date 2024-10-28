@@ -37,8 +37,5 @@ Friend grouping
 ## Project Display
 ## 项目展示
 
-<img src=assets/e89e035823b49c5fecdbdf6326ed8b7d.jpg  width=300 />
-<img src=assets/6dfe60bcb0f3ec887a60d97e34ea5474.jpg  width=300 />
-<img src=assets/a02f32ae5a961bcc96b3a5fce1dfcbeb.jpg  width=300 />
-<img src=assets/289b07afa483ef2cb4ce431a406ba85b.jpg  width=300 />
+<img src=assets/e89e035823b49c5fecdbdf6326ed8b7d.jpg  width=300 /><img src=assets/6dfe60bcb0f3ec887a60d97e34ea5474.jpg  width=300 /><img src=assets/a02f32ae5a961bcc96b3a5fce1dfcbeb.jpg  width=300 /><img src=assets/289b07afa483ef2cb4ce431a406ba85b.jpg  width=300 />
 
